@@ -1,4 +1,15 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import vuetify from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
 
-createApp(App).mount('#app')
+import router from "@/router/index";
+
+import "@/assets/sass/main.scss"
+
+loadFonts()
+
+createApp(App)
+    .use(router)
+    .use(vuetify)
+    .mount('#app')
