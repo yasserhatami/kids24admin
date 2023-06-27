@@ -1,6 +1,8 @@
 <template>
-  <div>
-    Dashboard
+  <div class="text-center mt-4">
+    <h1>
+    dashboard
+  </h1>
   </div>
 </template>
 

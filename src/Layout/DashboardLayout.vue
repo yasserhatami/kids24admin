@@ -1,7 +1,7 @@
 <template>
     <v-card>
         <v-layout>
-            <v-navigation-drawer width="400" color="primary" v-model="drawer" location="right" temporary>
+            <v-navigation-drawer width="330" color="primary" v-model="drawer" location="right" temporary>
                 <sidebarcomponent />
 
             </v-navigation-drawer>
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class=" d-flex align-center h-100">
-                        <div class="bg-secondary d-flex align-center px-3 h-100">
+                        <div class="date-container  d-flex align-center px-3 h-100">
                             <DtaeAndTimeComponent />
                         </div>
                         <p class="px-3">kids24</p>
@@ -29,6 +29,7 @@
 
 
                 </div>
+               
 
             </v-app-bar>
 
@@ -61,8 +62,11 @@ export default {
 
 };
 </script>
-  
+
 <style>
+.date-container{
+    background-color: #B9E1DA !important;
+}
 p {
     font-family: "DanaFaNum" !important;
     font-style: normal;

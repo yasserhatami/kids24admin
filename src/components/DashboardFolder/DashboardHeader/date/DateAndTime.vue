@@ -1,5 +1,5 @@
 <template>
-    <div class="text-white">{{ time }} | {{ date }}</div>
+    <div class="">{{ time }} | {{ date }}</div>
   </template>
   
   <script>
@@ -37,6 +37,6 @@
     line-height: 29px;
     display: flex;
     align-items: center;
-    color: #FFFFFF;
+    color: #329988;
   }
   </style>

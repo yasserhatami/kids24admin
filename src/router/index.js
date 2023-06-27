@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import DashboardLayout from "@/Layout/DashboardLayout.vue"
 import Dashboard from "@/pages/DashbordComponent.vue"
+import InitialQuestionnaire from "@/pages/questionnaireSection/InitialQuestionnaire"
+import createQuestion from "@/pages/questionnaireSection/createQuestion.vue"
 import login from "../pages/login.vue"
 const routes = [
     {
@@ -16,6 +18,23 @@ const routes = [
             layout: DashboardLayout
         }
     },
+    {
+        name: 'InitialQuestionnaire',
+        path: "/InitialQuestionnaire",
+        component: InitialQuestionnaire,
+        meta: {
+            layout: DashboardLayout
+        }
+    },
+    {
+        name: 'createquestion',
+        path: '/InitialQuestionnaire/createquestion',
+        component: createQuestion,
+        meta: {
+            layout: DashboardLayout
+        }
+    }
+
 ]
 
 const router = createRouter({
@@ -24,3 +43,4 @@ const router = createRouter({
 })
 
 export default router
+
