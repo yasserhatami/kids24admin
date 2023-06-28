@@ -31,18 +31,22 @@
             </div>
         </v-sheet>
     </div>
+    {{ v$.userName.$invalid }}
 </template>
 <script>
 import useVuelidate from "@vuelidate/core";
-import { required, minLength, alpha, helpers } from "@vuelidate/validators";
+import { required, minLength, helpers } from "@vuelidate/validators";
 import { reactive, ref } from "vue";
 import { useRouter } from 'vue-router';
 
-// import auth from "@/services/auth.js";
+import auth from "@/services/auth.js";
 export default {
-    // data() {
-    //     return {};
-    // },
+
+    methods: {
+
+
+    },
+
     setup() {
         let notMatchWarn = ref(false);
         let activeLoading = ref(true);
@@ -57,10 +61,7 @@ export default {
             userName: {
                 required: helpers.withMessage("پر بودن این فیلد الزامیست.", required),
                 minLength,
-                alpha: helpers.withMessage(
-                    "لطفا فقط از حروف انگلیسی استفاده کنید.",
-                    alpha
-                )
+
             },
 
             password: {
@@ -72,11 +73,33 @@ export default {
         const v$ = useVuelidate(rules, state);
         const router = useRouter()
 
-        function login(){
-            router.push('/Dashboard')
+        function login() {
+            if (!this.v$.userName.$invalid && !this.v$.password.$invalid) {
+                auth
+                    .login({
+                        phone_number: state.userName,
+                        password: state.password
+                    }).then((res) => {
+                        console.log(res);
+                        if (res.access) {
+                            localStorage.setItem("token", `Bearer ${res.access}`);
+                            router.push('/Dashboard')
+                        } else {
+                            notMatchWarn.value = true
+                            setTimeout(() => {
+                            notMatchWarn.value = false;
+                            }, 4000);
+                            state.userName ='',
+                            state.password = ''
+                        }
+
+                    })
+            }
+
+
         }
 
-        return { v$,login, state, correct, activeLoading, notMatchWarn };
+        return { v$, state, correct, activeLoading, notMatchWarn, login };
     }
 };
 </script>

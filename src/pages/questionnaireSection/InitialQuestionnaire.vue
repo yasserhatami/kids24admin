@@ -1,13 +1,13 @@
 <template>
     <v-container fluid class="container mt-7 px-3" dir="rtl">
         <v-row class="px-10 px-md-0">
-            <v-col cols="12" md="6" class="pa-0 pa-md-3">
+            <v-col cols="12" sm="6" class="pa-0 pa-md-3">
                 <div class="box w-100 pa-2" type="text">
                     <input class="w-100" placeholder="جست و جو..." type="text" />
                     <v-icon icon="mdi-magnify"></v-icon>
                 </div>
             </v-col>
-            <v-col class="pa-0 pa-md-3" cols="12" md="3">
+            <v-col class="pa-0 pa-md-3" cols="12" sm="3">
                 <router-link to="/InitialQuestionnaire/createquestion" class=" text-decoration-none text-white ">
                     <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-propurple">
                         افزودن
@@ -15,7 +15,7 @@
                 </router-link>
             </v-col>
 
-            <v-col class="pa-0 pa-md-3" cols="12" md="3">
+            <v-col class="pa-0 pa-md-3" cols="12" sm="3">
                 <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
                     حذف
                 </div>

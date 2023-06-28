@@ -12,7 +12,7 @@
                                 </div>
                             </div>
                         </v-col>
-                        <v-col cols="12" md="6" class="h-100 mb-10 pa-0 ma-0">
+                        <v-col cols="12" sm="6" class="h-100 mb-10 pa-0 ma-0">
                             <div class="w-100 h-100 d-flex justify-center align-center ">
                                 <div class="formraper">
                                     <formComponent />
