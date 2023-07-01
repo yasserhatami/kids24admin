@@ -1,0 +1,43 @@
+// @use 'vuetify' with (
+//   $utilities: false,
+//   $color-pack: false,
+// );
+
+@font-face {
+  font-family: "DanaFaNum";
+  src: local("dana Regular"), local("dana-Regular"),
+    url("@/assets/fonts/dana/dana-fanum\ regular.woff2") format("woff2"),
+    url("@/assets/fonts/dana/dana-fanum\ regular.woff") format("woff"),
+    url("@/assets/fonts/dana/dana-fanum\ regular.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+*{
+  text-decoration: none;
+  direction: rtl;
+}
+h1{
+    color: red;
+    font-family: "DanaFaNum";
+}
+button{
+  cursor: pointer;
+}
+.box {
+  cursor: pointer;;
+  background: #ffffff;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  height: 60px;
+  font-family: "DanaFaNum";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 30px;
+
+  display: flex;
+  align-items: center;
+  text-align: right;
+
+  color: #272b31;
+}
