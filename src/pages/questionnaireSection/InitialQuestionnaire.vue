@@ -8,7 +8,7 @@
                 </div>
             </v-col>
             <v-col class="pa-0 pa-md-3" cols="12" sm="3">
-                <router-link to="/InitialQuestionnaire/createquestion" class=" text-decoration-none text-white ">
+                <router-link to="/InitialQuestionnaire/createquestionnaire" class=" text-decoration-none text-white ">
                     <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-propurple">
                         افزودن
                     </div>

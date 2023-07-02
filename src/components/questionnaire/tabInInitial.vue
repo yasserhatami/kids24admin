@@ -1,31 +1,33 @@
 <template >
   <v-container fluid dir="">
-      <v-row>
-          <v-col class="">
-              <table id="customers" class="" dir="rtl">
-                  <tr class="">
-                      <th class="text-center first"><input class="" type="checkbox" /></th>
-                      <th class="text-center"> نام پرسشنامه</th>
-                      <th class="text-center"> سن پرسشنامه</th>
-                      <th class="text-center ">تاریخ</th>
-                      <th class="text-center end"></th>
-                  </tr>
-                  <tr>
-                      <td>
-                          <input class="" type="checkbox">
-                      </td>
-                      <td>پرسشنامه یکم</td>
-                      <td>زیر دو سال</td>
-                      <td>1402/5/4</td>
-                      <td>eye</td>
+    <v-row>
+      <v-col class="">
+        <table id="customers" class="" dir="rtl">
+          <tr class="">
+            <th class="text-center first"><input class="" type="checkbox" /></th>
+            <th class="text-center"> نام پرسشنامه</th>
+            <th class="text-center"> سن پرسشنامه</th>
+            <th class="text-center ">تاریخ</th>
+            <th class="text-center end"></th>
+          </tr>
+          <tr v-for="(q, index) in firstTenQuestionnaires" :key="index">
+            <td>
+              <input class="" type="checkbox">
+            </td>
+            <td>{{ q.title }}</td>
+            <td>{{ q.questionnaire_type === 'U' ? 'زیر دو سال' : "بالای دو سال" }}</td>
+            <td>{{ q.create_at }}</td>
+            <td><v-icon icon="mdi-eye" /></td>
 
-                  </tr>
+          </tr>
 
-              </table>
+        </table>
 
 
-              <div class="mb-10 w-100 footer d-flex justify-center align-center">
-                  <div class="pagination">
+        <div class="mb-10 w-100 footer d-flex justify-center align-center">
+          <button value="بعدی" class="mr-3" @click="nextarr($event)">بعدی</button>
+          <button value="قبلی" class="mr-3" @click="nextarr($event)">قبلی</button>
+          <!-- <div class="pagination">
                       <a href="#">&raquo;</a>
 
                       <a href="#">1</a>
@@ -35,14 +37,66 @@
                       <a href="#">5</a>
                       <a href="#">6</a>
                       <a href="#">&laquo;</a>
-                  </div>
-              </div>
-          </v-col>
-      </v-row>
+                  </div> -->
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
-export default {};
+import { ref } from 'vue'
+import Api from "@/utils/axios.js";
+export default {
+  setup() {
+    // let count = ref(1)
+    return {
+      count: ref(1)
+    }
+  },
+  data() {
+    return {
+      firstTenQuestionnaires: ref([]),
+      // count : ref(1)
+    }
+  }
+  ,
+  mounted() {
+    let firstCount = 1
+    this.getAllQuestionnaire(firstCount)
+      .then((res) => {
+        this.firstTenQuestionnaires = res
+      })
+
+    console.log(this.firstTenQuestionnaires);
+  },
+  methods: {
+    nextarr(event) {
+      if(event.target.value === 'بعدی'){
+        this.count ++
+      }else{
+        this.count--
+      }
+
+      this.getAllQuestionnaire(this.count)
+        .then((res) => {
+          this.firstTenQuestionnaires = res
+        })
+    }
+    ,
+    getAllQuestionnaire: async (count) => {
+      return await Api({
+        // "http://kids24.iambenyamin.com/api/admin/questionnaire/?page=2&s=false"
+        url: `/api/admin/questionnaire/?page=${count}&s=false`,
+        method: 'GET',
+      }).then((res) => {
+        // let firstTenQuestionnaires = res.id
+        console.log('kkkkkkkkkkkkk', res);
+        // this.firstTenQuestionnaires = ref([])
+        return res.data.results
+      })
+    }
+  }
+};
 </script>
 <style>
 #customers {
@@ -110,4 +164,5 @@ td div {
   float: left;
   padding: 8px 16px;
   text-decoration: none;
-}</style>
+}
+</style>

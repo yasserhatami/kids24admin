@@ -17,6 +17,7 @@
     methods: {
       updateDate() {
         setInterval(() => {
+          // console.log(this.date);
           const timeAndDate = new persianDate();
   
           this.time = timeAndDate.toLocale("fa").format("L");

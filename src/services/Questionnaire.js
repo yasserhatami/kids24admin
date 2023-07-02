@@ -19,6 +19,15 @@ const Questionnaire = {
             return res.data
         })
     },
+     sendChoices: async (data) => {
+        return await Api({
+            url: '/api/admin/choice/',
+            method: 'post',
+            data,
+        }).then(res => {
+            return res.data
+        })
+    },
   
 
 }

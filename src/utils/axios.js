@@ -11,7 +11,8 @@ const Api = (_config, body = null, headers) => {
             
             // 'content-Type': 'application/json; charset=utf-8',
             // "accept": 'text/plain',
-            ...(token ? {"Authorization": token} : {}),
+            // ...(token ? {"Authorization": token} : {}),
+            "Authorization": token,
             ...headers
         },
         ..._config,

@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 // import VuexPersistence from 'vuex-persist';
 import authModule from "./modules/auth"
+import multiSelectionValues from "./modules/multiSelectionValues"
 
 // const vuexLocal = new VuexPersistence({
 //   storage: window.localStorage,
@@ -8,7 +9,8 @@ import authModule from "./modules/auth"
 
 const store = createStore({
     modules: {
-      auth: authModule
+      auth: authModule,
+      multiSelectionValues : multiSelectionValues
     },
     // plugins:[vuexLocal.plugin]
   })

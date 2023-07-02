@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DashboardLayout from "@/Layout/DashboardLayout.vue"
 import Dashboard from "@/pages/DashbordComponent.vue"
 import InitialQuestionnaire from "@/pages/questionnaireSection/InitialQuestionnaire"
-import createQuestion from "@/pages/questionnaireSection/createQuestion.vue"
+import createQuestionnaire from "@/pages/questionnaireSection/createQuestionnaire.vue"
 import login from "../pages/login.vue"
 
 const routes = [
@@ -53,8 +53,8 @@ const routes = [
     },
     {
         name: 'createquestion',
-        path: '/InitialQuestionnaire/createquestion',
-        component: createQuestion,
+        path: '/InitialQuestionnaire/createquestionnaire',
+        component: createQuestionnaire,
         meta: {
             layout: DashboardLayout
         },

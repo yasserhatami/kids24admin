@@ -20,7 +20,7 @@
             <div>
                 <v-btn @click="login()" block variant="elevated" class="btn mt-5">
                     <span v-if="activeLoading">ورود</span>
-                    <v-progress-circular v-else indeterminate></v-progress-circular>
+                    <v-progress-circular v-else indeterminate :size="34" :width="5"></v-progress-circular>
                 </v-btn>
             </div>
 
@@ -31,7 +31,6 @@
             </div>
         </v-sheet>
     </div>
-    {{ v$.userName.$invalid }}
 </template>
 <script>
 import useVuelidate from "@vuelidate/core";
@@ -75,6 +74,7 @@ export default {
 
         function login() {
             if (!this.v$.userName.$invalid && !this.v$.password.$invalid) {
+                this.activeLoading = false;
                 auth
                     .login({
                         phone_number: state.userName,
@@ -85,12 +85,13 @@ export default {
                             localStorage.setItem("token", `Bearer ${res.access}`);
                             router.push('/Dashboard')
                         } else {
+                            this.activeLoading = true;
                             notMatchWarn.value = true
                             setTimeout(() => {
-                            notMatchWarn.value = false;
+                                notMatchWarn.value = false;
                             }, 4000);
-                            state.userName ='',
-                            state.password = ''
+                            state.userName = '',
+                                state.password = ''
                         }
 
                     })
