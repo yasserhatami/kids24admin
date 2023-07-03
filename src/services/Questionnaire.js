@@ -28,6 +28,17 @@ const Questionnaire = {
             return res.data
         })
     },
+    getAllQuestion : async (data)=>{
+        console.log('ddddddddddddddddddddddddddddddddd',data);
+        return await Api({
+            url: `/api/admin/question/?questionnaire=${data}`,
+            method: 'GET',
+            
+        }).then(res => {
+            
+            return res.data
+        })
+    }
   
 
 }

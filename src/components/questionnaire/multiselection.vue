@@ -1,7 +1,7 @@
 <template lang="">
    
       <div class="d-flex justify-start align-center   mr-2">
-        <div v-for="(input, index) in inputs" :key="index"  class=" w-25 box mr-2  px-4" type="text">
+        <div v-for="(input, index) in inputs" :key="index"  class=" w-25 box mr-2  px-4">
           <input id='ss'  ref="ssss" v-model="inputs[index]" class="w-100 text-black"  type="text" />
         </div>
         <v-icon class="text-right" v-if="count <=2" @click="addInput" color="success" icon="mdi-plus"></v-icon>
@@ -18,7 +18,7 @@
 <script>
 import { ref } from 'vue';
 import useVuelidate from "@vuelidate/core";
-import { required, } from "@vuelidate/validators";
+// import { required, } from "@vuelidate/validators";
 // import { reactive } from 'vue';
 
 export default {
@@ -38,12 +38,12 @@ export default {
       count: ref(-1)
     }
   },
-  validations() {
-    return {
-      text: { required },
+  // validations() {
+  //   return {
+  //     text: { required },
 
-    }
-  },
+  //   }
+  // },
   methods: {
     addInput() {
      

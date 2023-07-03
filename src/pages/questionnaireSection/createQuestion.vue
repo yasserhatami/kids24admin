@@ -1,6 +1,6 @@
 <template >
     <v-container>
-
+        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length"  :allQuestons="allQuestons"></listOfqestonsOfquestionnaire>
         <v-row class="">
             <v-col cols="9">
                 <div class="box w-100 px-4" type="text">
@@ -74,6 +74,16 @@
                 <multiSelecton></multiSelecton>
             </div>
         </v-row>
+        <v-dialog v-model="doneQuestion" width="400">
+
+            <v-card>
+                <p class="text-center text-h6 mt-3">سوال با موفقیت ایجاد شد.</p>
+                <div class="text-center my-3">
+                    <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
+                        @click="doneQuestion = false">بستن</button>
+                </div>
+            </v-card>
+        </v-dialog>
 
         <v-row class="d-flex justify-end ml-0">
             <div class="d-flex justify-space-around zz mt-14 mb-5">
@@ -93,6 +103,7 @@
     </v-container>
 </template>
 <script>
+import listOfqestonsOfquestionnaire from "@/components/questionnaire/listOfqestonsOfquestionnaire.vue"
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import Questionnaire from '@/services/Questionnaire'
@@ -100,6 +111,7 @@ import multiSelecton from '@/components/questionnaire/multiselection.vue'
 import { ref } from 'vue'
 // import { reactive } from "vue";
 export default {
+    name: "createQuestion",
     props: ['idOfquestionnaire']
     ,
     setup() {
@@ -107,33 +119,35 @@ export default {
     },
     data() {
         return {
+            allQuestons: ref([]),
             question: ref(''),
             dialog: ref(false),
             doneQuestion: ref(false),
             picked: ref(''),
             shouldShowMultiSelect: ref(false),
             idOfquestionnaireProped: this.idOfquestionnaire,
-            inputs: ref([1]),
+          
         }
     },
-
+    watch:{
+        allQuestons(){
+          console.log('ALIAKBVAAAAAAAAAAAAAAAAAAAAAAAAAAR');
+        }
+    },
 
     validations() {
         return {
             question: { required: helpers.withMessage("پر بودن این فیلد الزامیست.", required) },
-            picked: { required: helpers.withMessage("پر بودن این فیلد الزامیست.", required) },
         };
     },
 
     components: {
 
-        multiSelecton
+        multiSelecton,
+        listOfqestonsOfquestionnaire
     },
     methods: {
-        addInput() {
-            this.inputs.push(this.inputs.length + 1)
-            console.log(this.allQuestons);
-        },
+       
         multiSelectionSelected() {
             this.shouldShowMultiSelect = true;
             this.dialog = false
@@ -159,11 +173,16 @@ export default {
 
                 Questionnaire
                     .createQuestion(bodyFormData)
-                    .then((res) => {
-                        console.log(res);
-                        if (res.id) {
+                    .then((response) => {
+                        console.log(response);
+                        if (response.id) {
                             this.doneQuestion = true;
-
+                            Questionnaire
+                                .getAllQuestion(this.idOfquestionnaire)
+                                .then((res) => {
+                                    this.allQuestons= res ;
+                                    console.log('list of q',res);
+                                })
                             //shart k 4 gozine bashe
                             if (this.picked === '4') {
                                 for (let i = 0; i < 5; i++) {
@@ -171,7 +190,7 @@ export default {
                                     let bodyFormData = new FormData();
                                     const payload = {
                                         text: text,
-                                        question: res.id,
+                                        question: response.id,
                                     };
                                     for (const key in payload) {
                                         bodyFormData.append(key, payload[key]);
@@ -192,7 +211,8 @@ export default {
                         }
                     })
             } else {
-                console.log('ssssssssssssssssssssssssssssssssssss');
+                
+                console.log('ssssssssssssssSSSssssssssssssssssssssss');
             }
         }
     }

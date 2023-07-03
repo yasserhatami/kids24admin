@@ -52,7 +52,7 @@ const routes = [
         
     },
     {
-        name: 'createquestion',
+        name: 'createQuestion',
         path: '/InitialQuestionnaire/createquestionnaire',
         component: createQuestionnaire,
         meta: {
