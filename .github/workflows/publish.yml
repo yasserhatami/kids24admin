@@ -27,7 +27,8 @@ jobs:
           driver-opts: network=host
       - uses: docker/build-push-action@v3
         with:
-          file: .github/Dockerfile
+          # file: .github/Dockerfile
+          file: Dockerfile
           cache-from: type=local,src=.cache
           cache-to: type=local,dest=.cache,mode=max
           target: cache
