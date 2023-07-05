@@ -95,9 +95,10 @@
                 </button><br>
 
             </div>
+            <br>
         </v-row>
 
-
+        
 
 
     </v-container>
@@ -119,6 +120,7 @@ export default {
     },
     data() {
         return {
+            aa : ref([]),
             allQuestons: ref([]),
             question: ref(''),
             dialog: ref(false),
@@ -138,6 +140,7 @@ export default {
     validations() {
         return {
             question: { required: helpers.withMessage("پر بودن این فیلد الزامیست.", required) },
+            picked: { required: helpers.withMessage("پر بودن این فیلد الزامیست.", required) },
         };
     },
 
@@ -185,14 +188,16 @@ export default {
                                 })
                             //shart k 4 gozine bashe
                             if (this.picked === '4') {
-                                for (let i = 0; i < 5; i++) {
-                                    let text = localStorage.getItem(`choise${i}`);
+                                for (let i = 1; i <= 4; i++) {
+                                    let text = localStorage.getItem(`choice${i}`);
+                                    console.log(`choice${i}`,text);
                                     let bodyFormData = new FormData();
                                     const payload = {
                                         text: text,
                                         question: response.id,
                                     };
                                     for (const key in payload) {
+                                        
                                         bodyFormData.append(key, payload[key]);
                                     }
                                     Questionnaire

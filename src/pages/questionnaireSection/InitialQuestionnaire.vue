@@ -16,22 +16,47 @@
             </v-col>
 
             <v-col class="pa-0 pa-md-3" cols="12" sm="3">
-                <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
+                <div @click="deleteItems" class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
                     حذف
                 </div>
             </v-col>
 
-
         </v-row>
         <v-row class="mt-9">
-            <tabInInitial></tabInInitial>
+            <tabInInitial :updateQuestionnairTable = updateQuestionnairTable></tabInInitial>
         </v-row>
         <router-view></router-view>
     </v-container>
 </template>
 <script>
+import { useCunterStore } from '@/store/questonnaireStore.js'
+import Questionnaire from '@/services/Questionnaire'
 import tabInInitial from "@/components/questionnaire/tabInInitial.vue";
+import { ref } from 'vue';
 export default {
+    setup() {
+        const store = useCunterStore()
+        let updateQuestionnairTable = ref(true)
+
+        function deleteItems() {
+            let items = store.shouldDeleteItems;
+            const promises = []
+            for (const key in items) {
+                var value = items[key];
+                promises.push(Questionnaire
+                .deleteQuestionnaire(value))
+            }
+
+            Promise.all(promises).then(() => {
+                updateQuestionnairTable.value =! updateQuestionnairTable.value
+                store.cleaneSate()
+            })
+
+           
+        }
+
+        return { store, deleteItems ,updateQuestionnairTable}
+    },
     data() {
         return {
             select: "",

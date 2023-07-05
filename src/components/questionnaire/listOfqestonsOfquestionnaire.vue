@@ -1,6 +1,6 @@
 <template >
     <v-container>
-        <div v-for="q in allQuestonsrpopped" :key="q.id">
+        <div class="border rounded pa-7  my-3" v-for="q in allQuestonsrpopped" :key="q.id">
             <v-row>
                 <v-col cols="9">
                     <div class="box w-100 px-4" type="text">
@@ -19,22 +19,19 @@
                     </div>
                 </v-col>
             </v-row>
-            <v-row v-if="q.question_type === 4">
+            <v-row v-if="q.question_type_display === 'multiple choice'">
                 <div class="d-flex justify-start align-center   mr-2">
                     <div v-for="(input, index) in q.choices" :key="index" class=" w-25 box mr-2  px-4" type="text">
-                        <input id='ss' ref="ssss"  :placeholder="q.text" class="w-100 text-black" disabled />
+                        <input id='ss' ref="ssss" :placeholder="input.text" class="w-100 text-black" disabled />
                     </div>
                 </div>
             </v-row>
-            {{ allQuestonsrpopped }}
-
         </div>
     </v-container>
 </template>
 <script>
 
 import { toRefs } from 'vue'
-// import { reactive } from "vue";
 export default {
 
     props: ['allQuestons'],
