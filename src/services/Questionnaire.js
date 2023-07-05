@@ -1,6 +1,15 @@
 import Api from "@/utils/axios.js";
 //  let token = localStorage.getItem('token')
 const Questionnaire = {
+    deleteQuestion : async (data,id) => {
+        return await Api({
+            url: `/api/admin/question/${id}/`,
+            method: 'DELETE',
+            data,
+        }).then(res => {
+            return res.data
+        })
+    },
     getSingleQuestionnaire: async (id) => {
         console.log('injs',id);
         return await Api({
