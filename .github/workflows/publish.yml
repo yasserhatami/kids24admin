@@ -27,25 +27,20 @@ jobs:
           driver-opts: network=host
       - uses: docker/build-push-action@v3
         with:
-          file: .github/Dockerfile
+          # file: .github/Dockerfile
+          file: Dockerfile
           cache-from: type=local,src=.cache
           cache-to: type=local,dest=.cache,mode=max
           target: cache
-          push: false
+          push: true
           context: .
-      - uses: docker/build-push-action@v3
-        with:
-          file: .github/Dockerfile
           tags: |
             ghcr.io/${{ github.repository }}:${{ github.ref_type == 'tag' && github.ref_name || github.sha }}
             ghcr.io/${{ github.repository }}:latest
-          cache-from: type=local,src=.cache
-          push: true
-          context: .
+
   test:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - run: echo Test
