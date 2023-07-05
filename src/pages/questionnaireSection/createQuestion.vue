@@ -10,7 +10,7 @@
                     <div class="text-red">{{ error.$message }}</div>
                 </div>
             </v-col>
-            <v-col cols="2">
+            <v-col cols="3">
 
                 <div @click="dialog = true" class="box btn w-100 pa-2 d-flex justify-center align-center bg-primary">
 
@@ -63,11 +63,11 @@
                 </v-dialog>
 
             </v-col>
-            <v-col cols="1">
+            <!-- <v-col cols="1">
                 <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
-                    <v-icon icon="mdi-trash-can-outline" />
+                    <v-icon  icon="mdi-trash-can-outline" />
                 </div>
-            </v-col>
+            </v-col> -->
         </v-row>
         <v-row v-if="picked === '4'">
             <div class="w-100">
@@ -90,7 +90,7 @@
                 <button :disabled="idOfquestionnaire.length === 0" @click="publishQuestion" class="aaaa bg-propurple">
                     انتشار
                 </button>
-                <button @click="nn" class="aaaa bg-red">
+                <button @click="cleaneForm" class="aaaa bg-red">
                     انصراف
                 </button><br>
 
@@ -218,6 +218,9 @@ export default {
                 
                 console.log('ssssssssssssssSSSssssssssssssssssssssss');
             }
+        },
+        cleaneForm(){
+
         }
     }
 }

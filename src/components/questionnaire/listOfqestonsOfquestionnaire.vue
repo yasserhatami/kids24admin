@@ -10,12 +10,16 @@
                 <v-col cols="2">
 
                     <div @click="dialog = true" class="box btn w-100 pa-2 d-flex justify-center align-center bg-primary">
-                        {{ q.question_type }}
+                        <!-- {{ q.question_type }} -->
+                        <span v-if=" q.question_type === 1">توضیحی</span>
+                        <span v-if=" q.question_type === 2">بله/خیر</span>
+                        <span v-if=" q.question_type === 3">عددی</span>
+                        <span v-if=" q.question_type === 4">چهارگزینه ای</span>
                     </div>
                 </v-col>
                 <v-col cols="1">
                     <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
-                        <v-icon icon="mdi-trash-can-outline" />
+                        <v-icon @click="deleteItem(q.title,q.question_type,q.questionnaire,q.id)" icon="mdi-trash-can-outline" />
                     </div>
                 </v-col>
             </v-row>
@@ -32,6 +36,7 @@
 <script>
 
 import { toRefs } from 'vue'
+import Questionnaire from '@/services/Questionnaire'
 export default {
 
     props: ['allQuestons'],
@@ -40,8 +45,25 @@ export default {
         console.log(props.allQuestons);
         let { allQuestons: allQuestonsrpopped } = toRefs(props);
 
+        function deleteItem(title,type,questionnaire,id){
+            console.log(title,type,questionnaire,id);
+            let bodyFormData = new FormData();
+                const payload = {
+                    title: title,
+                    question_type: type,
+                    is_child_status: false,
+                    //prop
+                    questionnaire: questionnaire
+                };
+                  for (const key in payload) {
+                    bodyFormData.append(key, payload[key]);
+                }
+            Questionnaire
+            .deleteQuestion(bodyFormData,id)
+        }
 
-        return { allQuestonsrpopped }
+
+        return { allQuestonsrpopped ,deleteItem }
     },
 
 
