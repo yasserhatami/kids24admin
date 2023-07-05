@@ -18,7 +18,7 @@
             <td>{{ q.questionnaire_type === 'U' ? 'زیر دو سال' : "بالای دو سال" }}</td>
             <td>{{ q.create_at }}</td>
             <td>
-              <v-icon icon="mdi-eye" />
+              <v-icon @click="whatchQuestionnaire(q.id)" icon="mdi-eye" />
 
             </td>
 
@@ -38,6 +38,7 @@
   </v-container>
 </template>
 <script>
+import { useRouter } from 'vue-router'
 import Questionnaire from '@/services/Questionnaire'
 import { useCunterStore } from '@/store/questonnaireStore.js'
 import { toRefs } from 'vue'
@@ -46,6 +47,7 @@ import { ref, watch, onMounted } from 'vue'
 export default {
   props: ['updateQuestionnairTable'],
   setup(props) {
+    const router = useRouter()
     const store = useCunterStore()
     let firstTenQuestionnaires = ref([])
     let count = ref(1)
@@ -79,6 +81,14 @@ export default {
         })
     }
 
+    function whatchQuestionnaire(id){
+     
+      
+        router.push(`/InitialQuestionnaire/${id}`)
+   
+    
+    }
+
     onMounted(() => {
       let firstCount = 1
       Questionnaire.
@@ -91,7 +101,11 @@ export default {
     watch(updateQuestionnairTableProped, () => {
       updateTable()
     });
+
+
     return {
+      router,
+      whatchQuestionnaire,
       count,
       firstTenQuestionnaires,
 

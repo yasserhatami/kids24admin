@@ -133,7 +133,6 @@ export default {
     },
     watch:{
         allQuestons(){
-          console.log('ALIAKBVAAAAAAAAAAAAAAAAAAAAAAAAAAR');
         }
     },
 

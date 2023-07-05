@@ -5,6 +5,7 @@ import Dashboard from "@/pages/DashbordComponent.vue"
 import InitialQuestionnaire from "@/pages/questionnaireSection/InitialQuestionnaire"
 import createQuestionnaire from "@/pages/questionnaireSection/createQuestionnaire.vue"
 import login from "../pages/login.vue"
+import showQuestionnair from '../pages/questionnaireSection/showOneQuestionnaire.vue'
 
 const routes = [
     {
@@ -67,6 +68,12 @@ const routes = [
               next("/")
             }
           }
+    },
+    {
+      name : 'showQuestionnair',
+      path : '/InitialQuestionnaire/:id',
+      component : showQuestionnair,
+      props: true 
     }
 
 ]

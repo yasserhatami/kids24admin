@@ -3,7 +3,8 @@ import { defineStore } from "pinia";
 export const useCunterStore =  defineStore('getShouldDeleteItems',{
     state : ()=>{
         return{
-            shouldDeleteItems : []
+            shouldDeleteItems : [],
+            oneQuestionnaire : []
         }
     },
     actions:{
@@ -13,6 +14,9 @@ export const useCunterStore =  defineStore('getShouldDeleteItems',{
         },
         cleaneSate(){
             this.shouldDeleteItems = []; 
+        },
+        getOneQuestionnaire(payload){
+            this.oneQuestionnaire = payload
         }
     }
 })

@@ -1,6 +1,16 @@
 import Api from "@/utils/axios.js";
 //  let token = localStorage.getItem('token')
 const Questionnaire = {
+    getSingleQuestionnaire: async (id) => {
+        console.log('injs',id);
+        return await Api({
+          url: `/api/admin/questionnaire/${id}/`,
+          method: 'GET',
+        }).then((res) => {
+          return res.data
+        })
+      }
+    ,
     getAllQuestionnaire: async (count) => {
         return await Api({
           url: `/api/admin/questionnaire/?page=${count}&s=false`,
