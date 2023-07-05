@@ -3,7 +3,7 @@
         <v-row>
             <v-col cols="12">
                 <v-row class="mx-5 my-5" v-for="q in data" :key="q.id">
-                    <div class=" w-100 bg-red">
+                    <div class=" w-100 ">
                         <div class="d-flex justify-start">
                             <h2>
                                 نام پرسشنامه : {{ q.title }}
@@ -20,7 +20,8 @@
             </v-col>
         </v-row>
         <w-row>
-            <div class="border rounded pa-7  my-3" v-for="q in allQuestons" :key="q.id">
+            <div class="border rounded pa-7  my-3" v-for="q in allQuestons.value" :key="q.id">
+
                 <v-row>
                     <v-col cols="9">
                         <div class="box w-100 px-4" type="text">
@@ -29,9 +30,13 @@
                     </v-col>
                     <v-col cols="2">
 
-                        <div @click="dialog = true"
-                            class="box btn w-100 pa-2 d-flex justify-center align-center bg-primary">
-                            {{ q.question_type }}
+                        <div class="text-subtitle-1 box btn w-100 pa-2 d-flex justify-center align-center bg-primary">
+                            
+                            <span v-if="q.question_type === 1">توضیحی</span>
+
+                            <span v-if="q.question_type === 2">بله/خیر</span>
+                            <span v-if="q.question_type === 3">عددی</span>
+                            <span v-if="q.question_type === 4">چهارگزینه ای</span>
                         </div>
                     </v-col>
                     <v-col cols="1">

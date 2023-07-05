@@ -11,8 +11,10 @@
         <v-col cols="4">
           <select v-model="selectAgeAverage" class="box w-100 px-4" name="pets" id="pet-select">
             <option selected disabled>انتخاب دسته سنی</option>
-            <option value="A">بالای دو سال</option>
-            <option value="U">زیر دو سال</option>
+            <option value="6">6 ماه</option>
+            <option value="12">12 ماه </option>
+            <option value="14"> 14 ماه </option>
+            <option value="24">24ماه</option>
           </select>
   
         </v-col>
@@ -65,8 +67,8 @@
           let bodyFormData = new FormData();
           const payload = {
             title: title.value,
-            questionnaire_type: selectAgeAverage.value,
-            which_age: 0,
+            questionnaire_type: 'S',
+            which_age: selectAgeAverage.value,
             needed: false,
   
           };

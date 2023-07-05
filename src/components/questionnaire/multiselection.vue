@@ -14,7 +14,17 @@
             <v-icon  class=" pa-3 border-lg curser-pointer "   color="success" icon="mdi-check-bold"></v-icon>
           </button>
       </div>
-      </v-col>
+      <v-dialog v-model="doneChoices" width="400">
+
+          <v-card>
+              <p class="text-center text-h6 mt-3">گزینه ها با موفقیت ثبت شدند.</p>
+              <div class="text-center my-3">
+                  <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
+                      @click="doneChoices = false">بستن</button>
+              </div>
+          </v-card>
+      </v-dialog>
+      </v-col>  
     </v-row>
    </v-container>
     
@@ -30,11 +40,12 @@ import useVuelidate from "@vuelidate/core";
 export default {
   name: 'multiSelection',
   setup() {
-    
+
     return { v$: useVuelidate() }
   },
   data() {
     return {
+      doneChoices: ref(false),
       inputs: ref([]),
       count: ref(-1)
     }
@@ -57,7 +68,9 @@ export default {
     ,
     addLastInput() {
       console.log('done');
+
       localStorage.setItem(`choice${this.count + 1}`, this.inputs[this.count])
+      this.doneChoices = true;
     }
   }
 

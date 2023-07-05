@@ -43,6 +43,8 @@ export default {
         method_1: function (ev, i) {
             if (i === 0) {
                 router.push('/InitialQuestionnaire')
+            }else{
+                router.push('/InitialMentalQuestionnaire')
             }
         }
 
