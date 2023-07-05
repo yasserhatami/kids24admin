@@ -8,7 +8,7 @@
                 </div>
             </v-col>
             <v-col class="pa-0 pa-md-3" cols="12" sm="3">
-                <router-link to="/InitialQuestionnaire/createquestionnaire" class=" text-decoration-none text-white ">
+                <router-link to="/InitialMentalQuestionnaire/createMentalQuestionnaire" class=" text-decoration-none text-white ">
                     <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-propurple">
                         افزودن
                     </div>
@@ -23,15 +23,15 @@
 
         </v-row>
         <v-row class="mt-9">
-            <tabInInitial :updateQuestionnairTable = updateQuestionnairTable></tabInInitial>
+            <tabInMentalInitial :updateQuestionnairTable = updateQuestionnairTable></tabInMentalInitial>
         </v-row>
         <router-view></router-view>
     </v-container>
 </template>
 <script>
-import { useCunterStore } from '@/store/questonnaireStore.js'
+import { useCunterStore } from '@/store/mentalQuestonnaireStore.js'
 import Questionnaire from '@/services/Questionnaire'
-import tabInInitial from "@/components/questionnaire/tabInInitial.vue";
+import tabInMentalInitial from "@/components/questionnaire/mentalQuestionnair/tableMentalInitial.vue";
 import { ref } from 'vue';
 export default {
     setup() {
@@ -63,7 +63,7 @@ export default {
         };
     },
     components: {
-        tabInInitial,
+        tabInMentalInitial,
     },
 };
 </script>

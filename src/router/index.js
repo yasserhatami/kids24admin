@@ -5,75 +5,121 @@ import Dashboard from "@/pages/DashbordComponent.vue"
 import InitialQuestionnaire from "@/pages/questionnaireSection/InitialQuestionnaire"
 import createQuestionnaire from "@/pages/questionnaireSection/createQuestionnaire.vue"
 import login from "../pages/login.vue"
+import showQuestionnair from '../pages/questionnaireSection/showOneQuestionnaire.vue'
+
+import InitialMentalQuestionnaire from '../pages/questionnaireSection/mentalQuestionnaire/InitialMentalQuestionnaire.vue'
+import createMentalQuestionnaire from '../pages/questionnaireSection/mentalQuestionnaire/createMentalQuestionnaire.vue'
 
 const routes = [
-    {
-        path: "/",
-        component: login,
-        
+  {
+    path: "/",
+    component: login,
+
+  },
+  {
+    name: 'Dashboard',
+    path: "/Dashboard",
+    component: Dashboard,
+
+    meta: {
+      layout: DashboardLayout
     },
-    {
-        name: 'Dashboard',
-        path: "/Dashboard",
-        component: Dashboard,
-        
-        meta: {
-            layout: DashboardLayout
-        },
-        beforeEnter: (to, from, next) => {
-            let  isAthenticated = localStorage.getItem('token');
-            if (isAthenticated) {
-              next()
-  
-            } else {
-              next("/")
-            }
-          }
-        
-        
-        
-    },
-    {
-        name: 'InitialQuestionnaire',
-        path: "/InitialQuestionnaire",
-        component: InitialQuestionnaire,
-        meta: {
-            layout: DashboardLayout
-        },
-        beforeEnter: (to, from, next) => {
-            let  isAthenticated = localStorage.getItem('token');
-            if (isAthenticated) {
-              next()
-  
-            } else {
-              next("/")
-            }
-          }
-        
-    },
-    {
-        name: 'createquestion',
-        path: '/InitialQuestionnaire/createquestionnaire',
-        component: createQuestionnaire,
-        meta: {
-            layout: DashboardLayout
-        },
-        beforeEnter: (to, from, next) => {
-            let  isAthenticated = localStorage.getItem('token');
-            if (isAthenticated) {
-              next()
-  
-            } else {
-              next("/")
-            }
-          }
+    beforeEnter: (to, from, next) => {
+      let isAthenticated = localStorage.getItem('token');
+      if (isAthenticated) {
+        next()
+
+      } else {
+        next("/")
+      }
     }
+
+
+
+  },
+  {
+    name: 'InitialQuestionnaire',
+    path: "/InitialQuestionnaire",
+    component: InitialQuestionnaire,
+    meta: {
+      layout: DashboardLayout
+    },
+    beforeEnter: (to, from, next) => {
+      let isAthenticated = localStorage.getItem('token');
+      if (isAthenticated) {
+        next()
+
+      } else {
+        next("/")
+      }
+    }
+
+  },
+  {
+    name: 'createQuestion',
+    path: '/InitialQuestionnaire/createquestionnaire',
+    component: createQuestionnaire,
+    meta: {
+      layout: DashboardLayout
+    },
+    beforeEnter: (to, from, next) => {
+      let isAthenticated = localStorage.getItem('token');
+      if (isAthenticated) {
+        next()
+
+      } else {
+        next("/")
+      }
+    }
+  },
+  {
+    name: 'showQuestionnair',
+    path: '/InitialQuestionnaire/:id',
+    component: showQuestionnair,
+    props: true
+  },
+  ///////////////////////////////////////////////////////////////////////
+  {
+    name: 'InitialMentalQuestionnaire',
+    path: "/InitialMentalQuestionnaire",
+    component: InitialMentalQuestionnaire,
+    meta: {
+      layout: DashboardLayout
+    },
+    beforeEnter: (to, from, next) => {
+      let isAthenticated = localStorage.getItem('token');
+      if (isAthenticated) {
+        next()
+
+      } else {
+        next("/")
+      }
+    }
+
+  },
+  {
+    name: 'createMentalQuestionnaire',
+    path: '/InitialMentalQuestionnaire/createMentalQuestionnaire',
+    component: createMentalQuestionnaire,
+    meta: {
+      layout: DashboardLayout
+    },
+    beforeEnter: (to, from, next) => {
+      let isAthenticated = localStorage.getItem('token');
+      if (isAthenticated) {
+        next()
+
+      } else {
+        next("/")
+      }
+    }
+  },
 
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes
+  history: createWebHistory(),
+  routes
 })
 
 export default router

@@ -10,14 +10,17 @@
             <th class="text-center ">تاریخ</th>
             <th class="text-center end"></th>
           </tr>
-          <tr v-for="(q, index) in firstTenQuestionnaires" :key="index">
+          <tr v-for="q in firstTenQuestionnaires" :key="q.id">
             <td>
-              <input class="" type="checkbox">
+              <input @change="deleteQuestonnaire(q.id)" class="" type="checkbox">
             </td>
             <td>{{ q.title }}</td>
             <td>{{ q.questionnaire_type === 'U' ? 'زیر دو سال' : "بالای دو سال" }}</td>
             <td>{{ q.create_at }}</td>
-            <td><v-icon icon="mdi-eye" /></td>
+            <td>
+              <v-icon @click="whatchQuestionnaire(q.id)" icon="mdi-eye" />
+
+            </td>
 
           </tr>
 
@@ -25,78 +28,97 @@
 
 
         <div class="mb-10 w-100 footer d-flex justify-center align-center">
-          <button value="بعدی" class="mr-3" @click="nextarr($event)">بعدی</button>
-          <button value="قبلی" class="mr-3" @click="nextarr($event)">قبلی</button>
-          <!-- <div class="pagination">
-                      <a href="#">&raquo;</a>
+          <button v-if="count > 1" value="قبلی" class="mr-3" @click="nextarr">قبلی</button>
+          <button v-if="firstTenQuestionnaires.length < 10" value="بعدی" class="mr-3" @click="nextarr">بعدی</button>
 
-                      <a href="#">1</a>
-                      <a href="#">2</a>
-                      <a href="#">3</a>
-                      <a href="#">4</a>
-                      <a href="#">5</a>
-                      <a href="#">6</a>
-                      <a href="#">&laquo;</a>
-                  </div> -->
+
         </div>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
-import { ref } from 'vue'
-import Api from "@/utils/axios.js";
+import { useRouter } from 'vue-router'
+import Questionnaire from '@/services/Questionnaire'
+import { useCunterStore } from '@/store/questonnaireStore.js'
+import { toRefs } from 'vue'
+import { ref, watch, onMounted } from 'vue'
+// import Api from "@/utils/axios.js";
 export default {
-  setup() {
-    // let count = ref(1)
-    return {
-      count: ref(1)
+  props: ['updateQuestionnairTable'],
+  setup(props) {
+    const router = useRouter()
+    const store = useCunterStore()
+    let firstTenQuestionnaires = ref([])
+    let count = ref(1)
+    function deleteQuestonnaire(x) {
+      store.getvalue(x)
     }
-  },
-  data() {
-    return {
-      firstTenQuestionnaires: ref([]),
-      // count : ref(1)
-    }
-  }
-  ,
-  mounted() {
-    let firstCount = 1
-    this.getAllQuestionnaire(firstCount)
-      .then((res) => {
-        this.firstTenQuestionnaires = res
-      })
-
-    console.log(this.firstTenQuestionnaires);
-  },
-  methods: {
-    nextarr(event) {
-      if(event.target.value === 'بعدی'){
-        this.count ++
-      }else{
-        this.count--
-      }
-
-      this.getAllQuestionnaire(this.count)
+    function updateTable() {
+      console.log('loggggggggggg');
+      Questionnaire
+        .getAllQuestionnaire(count.value)
         .then((res) => {
-          this.firstTenQuestionnaires = res
+          console.log('fuckkkkkkkkkkkkkkkkkk',res);
+          firstTenQuestionnaires.value = res
         })
     }
-    ,
-    getAllQuestionnaire: async (count) => {
-      return await Api({
-        // "http://kids24.iambenyamin.com/api/admin/questionnaire/?page=2&s=false"
-        url: `/api/admin/questionnaire/?page=${count}&s=false`,
-        method: 'GET',
-      }).then((res) => {
-        // let firstTenQuestionnaires = res.id
-        console.log('kkkkkkkkkkkkk', res);
-        // this.firstTenQuestionnaires = ref([])
-        return res.data.results
-      })
+
+    let { updateQuestionnairTable: updateQuestionnairTableProped } = toRefs(props);
+
+    function nextarr(e) {
+      if (e.target.value === 'بعدی') {
+        count.value++
+      } else {
+        count.value--
+      }
+
+      Questionnaire
+        .getAllQuestionnaire(count.value)
+        .then((res) => {
+          console.log();
+          firstTenQuestionnaires.value = res
+        })
     }
+
+    function whatchQuestionnaire(id){
+     
+      
+        router.push(`/InitialQuestionnaire/${id}`)
+   
+    
+    }
+
+    onMounted(() => {
+      let firstCount = 1
+      Questionnaire.
+        getAllQuestionnaire(firstCount)
+        .then((res) => {
+          firstTenQuestionnaires.value = res
+        })
+    })
+
+    watch(updateQuestionnairTableProped, () => {
+      updateTable()
+    });
+
+
+    return {
+      router,
+      whatchQuestionnaire,
+      count,
+      firstTenQuestionnaires,
+
+      nextarr,
+      store,
+      deleteQuestonnaire,
+      updateQuestionnairTableProped,
+      updateTable
+    }
+
   }
-};
+}
+
 </script>
 <style>
 #customers {

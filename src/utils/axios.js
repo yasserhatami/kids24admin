@@ -1,5 +1,5 @@
 import axios from "axios"
-const baseUrl = 'http://kids24.iambenyamin.com/';
+const baseUrl = 'https://kids.prod.vinect.info/';
 
 const token = localStorage.getItem('token')
 

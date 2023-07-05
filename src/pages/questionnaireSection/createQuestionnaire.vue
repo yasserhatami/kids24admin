@@ -10,7 +10,7 @@
       </v-col>
       <v-col cols="4">
         <select v-model="selectAgeAverage" class="box w-100 px-4" name="pets" id="pet-select">
-          <option>انتخاب دسته سنی</option>
+          <option selected disabled>انتخاب دسته سنی</option>
           <option value="A">بالای دو سال</option>
           <option value="U">زیر دو سال</option>
         </select>
@@ -50,50 +50,22 @@
 <script>
 
 import Questionnaire from '@/services/Questionnaire'
-import createQuestion from './createQuestion.vue'
+import createQuestion from '@/pages/questionnaireSection/createQuestion.vue'
 import useVuelidate from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 import { ref } from 'vue'
 export default {
   setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      shouldShowMultiSelect: ref(false),
-      doneQuestion: ref(false),
-      idOfquestionnaire: ref(''),
-      
-      doneQuestionnaire: ref(false),
-      question: '',
-      title: '',
-      selectAgeAverage: 'انتخاب دسته سنی',
-      dialog: false,
-      picked: ref(''),
-    }
-  },
-  components: {
-    createQuestion
-  },
-  validations() {
-    return {
-      question: { required },
-      title: { required },
-      selectAgeAverage: { required },
-      picked: { required },
-    };
-  },
-
-  methods: {
-
-  
-    createQuestionnaire() {
+    let idOfquestionnaire=  ref('')
+    let title = ref('')
+     let selectAgeAverage =  ref('انتخاب دسته سنی');
+     let doneQuestionnaire = ref(false);
+    function createQuestionnaire() {
       if (!this.v$.title.$invalid && !this.v$.selectAgeAverage.$invalid) {
-        console.log(this.title, this.selectAgeAverage);
         let bodyFormData = new FormData();
         const payload = {
-          title: this.title,
-          questionnaire_type: this.selectAgeAverage,
+          title: title.value,
+          questionnaire_type: selectAgeAverage.value,
           which_age: 0,
           needed: false,
 
@@ -107,8 +79,9 @@ export default {
           .then((res) => {
             console.log(res);
             if (res.id) {
-              this.doneQuestionnaire = true
-              this.idOfquestionnaire = res.id;
+              doneQuestionnaire.value = true
+              idOfquestionnaire.value = res.id;
+              
             }
 
 
@@ -116,9 +89,24 @@ export default {
       }else{
         console.log('sssssssssssssssssss');
       }
-    },
-   
-  }
+    }
+
+
+    return { v$: useVuelidate() ,idOfquestionnaire ,createQuestionnaire ,doneQuestionnaire, title ,selectAgeAverage,};
+    
+  },
+ 
+  components: {
+    createQuestion
+  },
+  validations() {
+    return {
+      question: { required },
+      title: { required },
+      selectAgeAverage: { required },
+      picked: { required },
+    };
+  },
 }
 </script>
 
