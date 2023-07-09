@@ -29,6 +29,15 @@ const Questionnaire = {
         })
       }
     ,
+    getAllQuestionnaireOfS: async (count) => {
+        return await Api({
+          url: `/api/admin/questionnaire/?page=${count}&s=true`,
+          method: 'GET',
+        }).then((res) => {
+          return res.data.results
+        })
+      }
+    ,
     deleteQuestionnaire: async (data) => {
         return await Api({
             url: `/api/admin/questionnaire/${data}/`,

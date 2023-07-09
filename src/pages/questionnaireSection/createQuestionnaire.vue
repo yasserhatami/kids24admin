@@ -4,24 +4,37 @@
       <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaa -->
       <v-col cols="5">
         <div class="box w-100 px-4" type="text">
-          <input v-model="title" class="w-100 text-black" placeholder="نام پرسشنامه" type="text" />
+          <input :readonly="ifCreatedQuestionnaire" v-model="title" class="w-100 text-black text-subtitle-2 text-sm-h6"
+            placeholder="نام پرسشنامه" type="text" />
 
         </div>
       </v-col>
       <v-col cols="4">
-        <select v-model="selectAgeAverage" class="box w-100 px-4" name="pets" id="pet-select">
+        <select v-if="!ifCreatedQuestionnaire" v-model="selectAgeAverage"
+          class="box w-100 px-4 text-subtitle-2 text-sm-h6" name="pets" id="pet-select">
           <option selected disabled>انتخاب دسته سنی</option>
           <option value="A">بالای دو سال</option>
           <option value="U">زیر دو سال</option>
         </select>
 
+        <div v-else class="box w-100 px-4" type="text">
+          <input readonly="2+2" class="w-100 text-black" :placeholder="selectAgeAverage" />
+
+        </div>
+
       </v-col>
       <v-col cols="3">
-        <div @click="createQuestionnaire" class="box btn w-100 pa-2 d-flex justify-center align-center bg-primary">
-          ایجاد پرسشنامه
-        </div>
+        <button @click="createQuestionnaire" :class="ifCreatedQuestionnaire ? 'disable' : 'active'"
+          class="box  w-100 pa-2 d-flex justify-center align-center bg-primary text-subtitle-2 text-sm-h6"
+          :disabled="ifCreatedQuestionnaire">
+
+          <span v-if="loading"> ایجاد پرسشنامه</span>
+          <v-progress-circular v-else indeterminate></v-progress-circular>
+        </button>
       </v-col>
     </v-row>
+
+
     <v-dialog v-model="doneQuestionnaire" width="400">
 
       <v-card class="">
@@ -35,11 +48,12 @@
     </v-dialog>
     <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
     <!-- bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb -->
-   <v-row>
-    <createQuestion :idOfquestionnaire = "idOfquestionnaire"></createQuestion>
-   </v-row>
-    
-   
+    <v-row>
+      <createQuestion v-if="ifCreatedQuestionnaire" @cancel-everything="cancelEveryThing" :idOfquestionnaire="idOfquestionnaire"></createQuestion>
+      
+    </v-row>
+
+
 
     <div>
 
@@ -56,12 +70,18 @@ import { required } from "@vuelidate/validators";
 import { ref } from 'vue'
 export default {
   setup() {
-    let idOfquestionnaire=  ref('')
+    
+    let loading = ref(true)
+    let ifCreatedQuestionnaire = ref(false)
+    let idOfquestionnaire = ref('')
     let title = ref('')
-     let selectAgeAverage =  ref('انتخاب دسته سنی');
-     let doneQuestionnaire = ref(false);
+    let selectAgeAverage = ref('انتخاب دسته سنی');
+    let doneQuestionnaire = ref(false);
+
+    ///////////////////////////////////////////////
     function createQuestionnaire() {
       if (!this.v$.title.$invalid && !this.v$.selectAgeAverage.$invalid) {
+        loading.value = false;
         let bodyFormData = new FormData();
         const payload = {
           title: title.value,
@@ -81,21 +101,29 @@ export default {
             if (res.id) {
               doneQuestionnaire.value = true
               idOfquestionnaire.value = res.id;
-              
+              ifCreatedQuestionnaire.value = true;
+              loading.value = true;
             }
 
 
           })
-      }else{
+      } else {
         console.log('sssssssssssssssssss');
       }
     }
 
+    function cancelEveryThing(){
+      ifCreatedQuestionnaire.value = false;
+      title.value = '';
+      selectAgeAverage = 'انتخاب دسته سنی';
 
-    return { v$: useVuelidate() ,idOfquestionnaire ,createQuestionnaire ,doneQuestionnaire, title ,selectAgeAverage,};
-    
+    }
+
+
+    return { v$: useVuelidate(), idOfquestionnaire, createQuestionnaire, doneQuestionnaire, title, selectAgeAverage, ifCreatedQuestionnaire,loading,cancelEveryThing };
+
   },
- 
+
   components: {
     createQuestion
   },
@@ -168,23 +196,7 @@ input::placeholder {
   ;
 }
 
-.box {
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  border-radius: 10px;
-  height: 60px;
-  font-family: "DanaFaNum";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 30px;
 
-  display: flex;
-  align-items: center;
-  text-align: right;
-
-  color: #272b31;
-}
 
 .bb {
   width: 100%;

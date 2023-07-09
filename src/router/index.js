@@ -6,6 +6,7 @@ import InitialQuestionnaire from "@/pages/questionnaireSection/InitialQuestionna
 import createQuestionnaire from "@/pages/questionnaireSection/createQuestionnaire.vue"
 import login from "../pages/login.vue"
 import showQuestionnair from '../pages/questionnaireSection/showOneQuestionnaire.vue'
+import showMentalQuestionaire from '../pages/questionnaireSection/mentalQuestionnaire/showOneQuestionnaire.vue'
 
 import InitialMentalQuestionnaire from '../pages/questionnaireSection/mentalQuestionnaire/InitialMentalQuestionnaire.vue'
 import createMentalQuestionnaire from '../pages/questionnaireSection/mentalQuestionnaire/createMentalQuestionnaire.vue'
@@ -113,6 +114,12 @@ const routes = [
         next("/")
       }
     }
+  },
+  {
+    name: 'showMentalQuestionaire',
+    path: '/InitialMentalQuestionnaire/:id',
+    component: showMentalQuestionaire,
+    props: true
   },
 
 ]

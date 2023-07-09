@@ -15,7 +15,10 @@
                 <input @change="deleteQuestonnaire(q.id)" class="" type="checkbox">
               </td>
               <td>{{ q.title }}</td>
-              <td>{{ q.questionnaire_type === 'U' ? 'زیر دو سال' : "بالای دو سال" }}</td>
+              <td v-if="q.which_age === 6"> شش ماه </td>
+              <td v-if="q.which_age === 12"> دوازده ماه </td>
+              <td v-if="q.which_age === 14"> چهارده ماه </td>
+              <td v-if="q.which_age === 24"> بیست و چهار ماه </td>
               <td>{{ q.create_at }}</td>
               <td>
                 <v-icon @click="whatchQuestionnaire(q.id)" icon="mdi-eye" />
@@ -60,6 +63,7 @@
           .getAllQuestionnaire(count.value)
           .then((res) => {
             console.log('fuckkkkkkkkkkkkkkkkkk',res);
+
             firstTenQuestionnaires.value = res
           })
       }
@@ -74,7 +78,7 @@
         }
   
         Questionnaire
-          .getAllQuestionnaire(count.value)
+          .getAllQuestionnaireOfS(count.value)
           .then((res) => {
             console.log();
             firstTenQuestionnaires.value = res
@@ -92,8 +96,9 @@
       onMounted(() => {
         let firstCount = 1
         Questionnaire.
-          getAllQuestionnaire(firstCount)
+        getAllQuestionnaireOfS(firstCount)
           .then((res) => {
+            console.log('jjjjjjjjjjjjjjjjjjjjjjj',res);
             firstTenQuestionnaires.value = res
           })
       })
