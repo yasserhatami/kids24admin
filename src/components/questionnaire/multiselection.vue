@@ -10,8 +10,8 @@
      </div>
    
      <div  v-if="count === 3" class=" mt-3 d-flex justify-center"> 
-         <button @click.once="addLastInput">
-           <v-icon  class=" pa-3 border-lg curser-pointer "   color="success" icon="mdi-check-bold"></v-icon>
+         <button class="bg-primary my-2 py-2 px-4 rounded-lg" @click.once="addLastInput">
+           تایید گزینه ها
          </button>
      </div>
      <v-dialog v-model="doneChoices" width="400">

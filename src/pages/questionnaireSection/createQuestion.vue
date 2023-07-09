@@ -1,21 +1,33 @@
 <template >
     <v-container>
-        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length"  :allQuestons="allQuestons"></listOfqestonsOfquestionnaire>
+        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length" :allQuestons="allQuestons">
+        </listOfqestonsOfquestionnaire>
         <v-row class="">
-            <v-col cols="9">
+            <!-- date of question -->
+            <v-col cols="7" sm="8">
                 <div class="box w-100 px-4" type="text">
-                    <input v-model="question" class="w-100 text-black" placeholder="متن سوال" type="text" />
+                    <input @blur="v$.question.$touch" v-model="question" class="w-100 text-black text-h6"
+                        placeholder="متن سوال" type="text" />
                 </div>
-                <div class="text-red mb-2 text-subtitle-1" v-for="error of v$.question.$errors" :key="error.$id">
+                <div class="text-red mb-2 text-subtitle-2 text-sm-h6" v-for="error of v$.question.$errors" :key="error.$id">
                     <div class="text-red">{{ error.$message }}</div>
                 </div>
+
             </v-col>
+            <!-- date of question -->
+
+            <!-- type of question -->
             <v-col cols="3">
 
-                <div @click="dialog = true" class="box btn w-100 pa-2 d-flex justify-center align-center bg-primary">
+                <div @click="dialog = true" @blur="v$.picked.$touch"
+                    class="box text-subtitle-2 text-sm-h6 w-100 pa-2 d-flex justify-center align-center bg-primary text-h6">
 
                     نوع پاسخ
                 </div>
+                <div class="text-red mb-2 text-subtitle-2 text-sm-h6" v-if="multi">
+                    <div class="text-red">نوع پاسخ باید انتخاب گردد.</div>
+                </div>
+
 
                 <v-dialog v-model="dialog" width="400">
                     <v-card>
@@ -26,22 +38,22 @@
 
                         <div class="radio-toolbar">
                             <div class=" d-flex justify-space-around my-3">
-                                <input @click="dialog = false" v-model="picked" type="radio" id="radioApple"
-                                    name="radioFruit" value="2">
+                                <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
+                                    id="radioApple" name="radioFruit" value="2">
                                 <label for="radioApple">بله/خیر</label>
 
-                                <input @click="multiSelectionSelected" v-model="picked" type="radio" id="radioBanana"
-                                    name="radioFruit" value="4">
+                                <input @change="v$.picked.$touch" @click="multiSelectionSelected" v-model="picked"
+                                    type="radio" id="radioBanana" name="radioFruit" value="4">
                                 <label for="radioBanana">چندگزینه ای</label>
                             </div>
 
                             <div class=" d-flex justify-space-around">
-                                <input @click="dialog = false" v-model="picked" type="radio" id="radioOrange"
-                                    name="radioFruit" value="1">
+                                <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
+                                    id="radioOrange" name="radioFruit" value="1">
                                 <label for="radioOrange">عددی</label>
 
-                                <input @click="dialog = false" v-model="picked" type="radio" id="tozih" name="radioFruit"
-                                    value="3">
+                                <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
+                                    id="tozih" name="radioFruit" value="3">
                                 <label for="tozih">توضیحی</label>
                             </div>
                         </div>
@@ -51,7 +63,7 @@
 
 
 
-                <v-dialog v-model="doneQuestion" width="400">
+                <!-- <v-dialog v-model="doneQuestion" width="400">
 
                     <v-card>
                         <p class="text-center text-h6 mt-3">سوال با موفقیت ثبت شد.</p>
@@ -60,37 +72,65 @@
                                 @click="doneQuestion = false">بستن</button>
                         </div>
                     </v-card>
-                </v-dialog>
+                </v-dialog> -->
 
             </v-col>
-            <!-- <v-col cols="1">
+            <!-- type of question -->
+            <!-- trash -->
+            <v-col cols="2" sm="1">
                 <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
-                    <v-icon  icon="mdi-trash-can-outline" />
+                    <v-icon icon="mdi-trash-can-outline" />
                 </div>
-            </v-col> -->
+            </v-col>
+            <!-- trash -->
         </v-row>
+
         <v-row v-if="picked === '4'">
             <div class="w-100">
                 <multiSelecton></multiSelecton>
             </div>
         </v-row>
-        <v-dialog v-model="doneQuestion" width="400">
+
+        <v-row class="d-flex justify-center align-center ">
+            <button @click="publishQuestion"
+                class="box w-25 bg-primary d-flex text-subtitle-2 text-sm-h6 justify-center my-5">
+                ایجاد سوال بعدی
+            </button>
+        </v-row>
+
+        <v-dialog v-model="finishAlert" width="400">
 
             <v-card>
                 <p class="text-center text-h6 mt-3">سوال با موفقیت ایجاد شد.</p>
                 <div class="text-center my-3">
                     <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
-                        @click="doneQuestion = false">بستن</button>
+                        @click="doneQuestion = false">بستن
+                    </button>
+                </div>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="finishOperation" width="400">
+
+            <v-card>
+                <p class="text-center text-h6 mt-3">با اینکار عملیات ایجاد پرسشنامه به انتها میرسد و سوالات ارسال
+                    میشوند،.اطمینان دارید؟</p>
+                <div class="text-center my-3">
+                    <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
+                        @click="finalOperation">ادامه</button>
+                    <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
+                        @click="finishOperation = false">خیر</button>
                 </div>
             </v-card>
         </v-dialog>
 
         <v-row class="d-flex justify-end ml-0">
             <div class="d-flex justify-space-around zz mt-14 mb-5">
-                <button :disabled="idOfquestionnaire.length === 0" @click="publishQuestion" class="aaaa bg-propurple">
+                <button @click="finishOperation = true" :disabled="idOfquestionnaire.length === 0"
+                    class="box w-50 bg-propurple d-flex justify-center text-subtitle-2 text-sm-h6 mx-2">
                     انتشار
                 </button>
-                <button @click="cleaneForm" class="aaaa bg-red">
+                <button @click="cleaneForm" class="box w-50 bg-red d-flex text-subtitle-2 text-sm-h6 justify-center mx-2">
                     انصراف
                 </button><br>
 
@@ -98,7 +138,7 @@
             <br>
         </v-row>
 
-        
+
 
 
     </v-container>
@@ -120,26 +160,27 @@ export default {
     },
     data() {
         return {
-            aa : ref([]),
+            finishOperation: ref(false),
+            multi: ref(false),
             allQuestons: ref([]),
             question: ref(''),
             dialog: ref(false),
-            doneQuestion: ref(false),
+            finishAlert: ref(false),
             picked: ref(''),
             shouldShowMultiSelect: ref(false),
             idOfquestionnaireProped: this.idOfquestionnaire,
-          
+
         }
     },
-    watch:{
-        allQuestons(){
+    watch: {
+        allQuestons() {
         }
     },
 
     validations() {
         return {
             question: { required: helpers.withMessage("پر بودن این فیلد الزامیست.", required) },
-            picked: { required: helpers.withMessage("پر بودن این فیلد الزامیست.", required) },
+            picked: { required: helpers.withMessage("نوع پاسخ را انتخاب کنید.", required) },
         };
     },
 
@@ -149,7 +190,73 @@ export default {
         listOfqestonsOfquestionnaire
     },
     methods: {
-       
+        cancelEveryThings(){
+            this.$emit('cancel-everything');
+        },
+        finalOperation() {
+            if (!this.v$.$invalid) {
+                let bodyFormData = new FormData();
+                const payload = {
+                    title: this.question,
+                    question_type: this.picked,
+                    is_child_status: false,
+                    //prop
+                    questionnaire: this.idOfquestionnaire
+
+                };
+                for (const key in payload) {
+                    bodyFormData.append(key, payload[key]);
+                }
+
+                Questionnaire
+                    .createQuestion(bodyFormData)
+                    .then((response) => {
+                        console.log(response);
+                        if (response.id) {
+                            //shart k 4 gozine bashe
+                            if (this.picked === '4') {
+                                for (let i = 1; i <= 4; i++) {
+                                    let text = localStorage.getItem(`choice${i}`);
+                                    console.log(`choice${i}`, text);
+                                    let bodyFormData = new FormData();
+                                    const payload = {
+                                        text: text,
+                                        question: response.id,
+                                    };
+                                    for (const key in payload) {
+
+                                        bodyFormData.append(key, payload[key]);
+                                    }
+                                    Questionnaire
+                                        .sendChoices(bodyFormData)
+                                        .then((choiseres) => {
+                                            console.log(choiseres);
+                                        })
+                                }
+                            }
+                            // this.finishAlert = true;
+                            // setTimeout(() => {
+                            //     this.finishAlert = false; 
+                            // }, 4000);
+                            this.picked = ''
+                            this.question = ''
+                            this.allQuestons = []
+                            this.cancelEveryThings()
+
+                        }
+                    })
+            } else {
+                if (this.v$.picked.$invalid) {
+                    this.multi = true
+                    setTimeout(() => {
+                        this.multi = false
+                    }, 5000)
+
+                }
+
+            }
+        },
+
         multiSelectionSelected() {
             this.shouldShowMultiSelect = true;
             this.dialog = false
@@ -182,21 +289,20 @@ export default {
                             Questionnaire
                                 .getAllQuestion(this.idOfquestionnaire)
                                 .then((res) => {
-                                    this.allQuestons= res ;
-                                    console.log('list of q',res);
+                                    this.allQuestons = res;
                                 })
                             //shart k 4 gozine bashe
                             if (this.picked === '4') {
                                 for (let i = 1; i <= 4; i++) {
                                     let text = localStorage.getItem(`choice${i}`);
-                                    console.log(`choice${i}`,text);
+                                    console.log(`choice${i}`, text);
                                     let bodyFormData = new FormData();
                                     const payload = {
                                         text: text,
                                         question: response.id,
                                     };
                                     for (const key in payload) {
-                                        
+
                                         bodyFormData.append(key, payload[key]);
                                     }
                                     Questionnaire
@@ -215,11 +321,17 @@ export default {
                         }
                     })
             } else {
-                
-                console.log('ssssssssssssssSSSssssssssssssssssssssss');
+                if (this.v$.picked.$invalid) {
+                    this.multi = true
+                    setTimeout(() => {
+                        this.multi = false
+                    }, 5000)
+
+                }
+
             }
         },
-        cleaneForm(){
+        cleaneForm() {
 
         }
     }

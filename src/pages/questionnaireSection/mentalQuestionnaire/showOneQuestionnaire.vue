@@ -11,8 +11,17 @@
                         </div>
 
                         <div class="d-flex justify-start">
-                            <h3>
-                                بازه سنی : {{ q.questionnaire_type === 'U' ? 'زیر دوسال' : 'بالای دو سال' }}
+                            <h3 v-if="q.which_age === 6">
+                                بازه سنی : شش ماه
+                            </h3>
+                            <h3 v-if="q.which_age === 12">
+                                بازه سنی : دوازده ماه
+                            </h3>
+                            <h3 v-if="q.which_age === 14">
+                                بازه سنی : چهارده ماه
+                            </h3>
+                            <h3 v-if="q.which_age === 24">
+                                بازه سنی : بیست و چهار ماه
                             </h3>
                         </div>
                     </div>
@@ -31,7 +40,7 @@
                     <v-col cols="2">
 
                         <div class="text-subtitle-1 box btn w-100 pa-2 d-flex justify-center align-center bg-primary">
-                            
+
                             <span v-if="q.question_type === 1">توضیحی</span>
 
                             <span v-if="q.question_type === 2">بله/خیر</span>
@@ -41,7 +50,7 @@
                     </v-col>
                     <v-col cols="1">
                         <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
-                            <v-icon  @click="deleteItem(q.title,q.question_type,q.questionnaire,q.id)" icon="mdi-trash-can-outline" />
+                            <v-icon @click="deleteItem(q.title,q.question_type,q.questionnaire,q.id)" icon="mdi-trash-can-outline" />
                         </div>
                     </v-col>
                 </v-row>
@@ -67,6 +76,7 @@ const props = defineProps({
         required: true,
     }
 })
+
 let data = reactive({})
 let allQuestons = reactive({});
 
@@ -79,6 +89,7 @@ onBeforeMount(() => {
         Questionnaire
             .getAllQuestion(props.id)
             .then((res) => {
+                console.log(props.id);
                 allQuestons.value = res;
                 console.log('list of ques', res);
 
