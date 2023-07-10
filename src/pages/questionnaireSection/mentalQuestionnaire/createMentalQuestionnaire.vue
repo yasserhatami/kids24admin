@@ -48,7 +48,7 @@
     <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
     <!-- bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb -->
     <v-row>
-      <createQuestion v-if="ifCreatedQuestionnaire" @cancel-everything="cancelEveryThing" :idOfquestionnaire="idOfquestionnaire"></createQuestion>
+      <createQuestion v-if="ifCreatedQuestionnaire" @cancel-everything="cancelEveryThing" :questionnaireType="questionnaireType" :idOfquestionnaire="idOfquestionnaire"></createQuestion>
     </v-row>
 
 
@@ -74,6 +74,7 @@ export default {
     let title = ref('')
     let selectAgeAverage = ref('انتخاب دسته سنی');
     let doneQuestionnaire = ref(false);
+    let questionnaireType = ref(0)
 
     ///////////////////////////////////////
     function createQuestionnaire() {
@@ -117,7 +118,7 @@ export default {
     }
 
 
-    return { v$: useVuelidate(), idOfquestionnaire, createQuestionnaire, doneQuestionnaire, title, selectAgeAverage, ifCreatedQuestionnaire,loading ,cancelEveryThing };
+    return {questionnaireType, v$: useVuelidate(), idOfquestionnaire, createQuestionnaire, doneQuestionnaire, title, selectAgeAverage, ifCreatedQuestionnaire,loading ,cancelEveryThing };
 
   },
 

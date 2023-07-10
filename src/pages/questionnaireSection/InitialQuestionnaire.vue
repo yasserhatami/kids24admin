@@ -1,13 +1,13 @@
 <template>
     <v-container fluid class="container mt-7 px-3" dir="rtl">
         <v-row class="px-10 px-md-0">
-            <v-col cols="12" sm="6" class="pa-0 pa-md-3">
+            <v-col cols="12" sm="6" class="pa-0 pa-sm-3 ">
                 <div class="box w-100 pa-2" type="text">
-                    <input class="w-100" placeholder="جست و جو..." type="text" />
-                    <v-icon icon="mdi-magnify"></v-icon>
+                    <input v-model="search" class="w-100" placeholder="جست و جو..." type="text" />
+                    <v-icon @click="searchTitle" icon="mdi-magnify"></v-icon>
                 </div>
             </v-col>
-            <v-col class="pa-0 pa-md-3" cols="12" sm="3">
+            <v-col class="pa-0 pa-sm-3" cols="12" sm="3">
                 <router-link to="/InitialQuestionnaire/createquestionnaire" class=" text-decoration-none text-white ">
                     <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-propurple">
                         افزودن
@@ -15,7 +15,7 @@
                 </router-link>
             </v-col>
 
-            <v-col class="pa-0 pa-md-3" cols="12" sm="3">
+            <v-col class="pa-0 pa-sm-3 " cols="12" sm="3">
                 <div @click="deleteItems" class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
                     حذف
                 </div>
@@ -23,7 +23,7 @@
 
         </v-row>
         <v-row class="mt-9">
-            <tabInInitial :updateQuestionnairTable = updateQuestionnairTable></tabInInitial>
+            <tabInInitial :searchValues="searchValues" :updateQuestionnairTable = updateQuestionnairTable></tabInInitial>
         </v-row>
         <router-view></router-view>
     </v-container>
@@ -35,7 +35,11 @@ import tabInInitial from "@/components/questionnaire/tabInInitial.vue";
 import { ref } from 'vue';
 export default {
     setup() {
+        
         const store = useCunterStore()
+
+        let search = ref('')
+        let searchValues = ref([])
         let updateQuestionnairTable = ref(true)
 
         function deleteItems() {
@@ -55,7 +59,19 @@ export default {
            
         }
 
-        return { store, deleteItems ,updateQuestionnairTable}
+        function searchTitle(){
+            Questionnaire
+             .searchInAllQuestionnaire(search.value)
+             .then((res)=>{
+                console.log(res);
+                searchValues.value = res
+                console.log(searchValues.value);
+                updateQuestionnairTable.value =! updateQuestionnairTable.value
+                
+             })
+        }
+
+        return { store, deleteItems ,updateQuestionnairTable,search,searchTitle,searchValues}
     },
     data() {
         return {

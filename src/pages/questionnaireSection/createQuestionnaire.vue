@@ -2,14 +2,14 @@
   <v-container>
     <v-row class="">
       <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaa -->
-      <v-col cols="5">
+      <v-col cols="5" class="px-1">
         <div class="box w-100 px-4" type="text">
           <input :readonly="ifCreatedQuestionnaire" v-model="title" class="w-100 text-black text-subtitle-2 text-sm-h6"
             placeholder="نام پرسشنامه" type="text" />
 
         </div>
       </v-col>
-      <v-col cols="4">
+      <v-col class="px-1" cols="4">
         <select v-if="!ifCreatedQuestionnaire" v-model="selectAgeAverage"
           class="box w-100 px-4 text-subtitle-2 text-sm-h6" name="pets" id="pet-select">
           <option selected disabled>انتخاب دسته سنی</option>
@@ -18,12 +18,13 @@
         </select>
 
         <div v-else class="box w-100 px-4" type="text">
-          <input readonly="2+2" class="w-100 text-black" :placeholder="selectAgeAverage" />
+          <input readonly="2+2" class="w-100 text-black"
+            :placeholder="selectAgeAverage === 'U' ? 'زیر دوسال' : 'بالای دو سال'" />
 
         </div>
 
       </v-col>
-      <v-col cols="3">
+      <v-col class="px-1" cols="3">
         <button @click="createQuestionnaire" :class="ifCreatedQuestionnaire ? 'disable' : 'active'"
           class="box  w-100 pa-2 d-flex justify-center align-center bg-primary text-subtitle-2 text-sm-h6"
           :disabled="ifCreatedQuestionnaire">
@@ -49,8 +50,11 @@
     <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
     <!-- bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb -->
     <v-row>
-      <createQuestion v-if="ifCreatedQuestionnaire" @cancel-everything="cancelEveryThing" :idOfquestionnaire="idOfquestionnaire"></createQuestion>
-      
+      <v-col class="pa-0 ">
+        <createQuestion v-if="ifCreatedQuestionnaire" @cancel-everything="cancelEveryThing"
+          :idOfquestionnaire="idOfquestionnaire"></createQuestion>
+      </v-col>
+
     </v-row>
 
 
@@ -70,7 +74,7 @@ import { required } from "@vuelidate/validators";
 import { ref } from 'vue'
 export default {
   setup() {
-    
+
     let loading = ref(true)
     let ifCreatedQuestionnaire = ref(false)
     let idOfquestionnaire = ref('')
@@ -97,7 +101,6 @@ export default {
         Questionnaire
           .createQuestionnaire(bodyFormData)
           .then((res) => {
-            console.log(res);
             if (res.id) {
               doneQuestionnaire.value = true
               idOfquestionnaire.value = res.id;
@@ -112,7 +115,7 @@ export default {
       }
     }
 
-    function cancelEveryThing(){
+    function cancelEveryThing() {
       ifCreatedQuestionnaire.value = false;
       title.value = '';
       selectAgeAverage = 'انتخاب دسته سنی';
@@ -120,7 +123,7 @@ export default {
     }
 
 
-    return { v$: useVuelidate(), idOfquestionnaire, createQuestionnaire, doneQuestionnaire, title, selectAgeAverage, ifCreatedQuestionnaire,loading,cancelEveryThing };
+    return { v$: useVuelidate(), idOfquestionnaire, createQuestionnaire, doneQuestionnaire, title, selectAgeAverage, ifCreatedQuestionnaire, loading, cancelEveryThing };
 
   },
 

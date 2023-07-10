@@ -77,6 +77,9 @@ const routes = [
     name: 'showQuestionnair',
     path: '/InitialQuestionnaire/:id',
     component: showQuestionnair,
+    meta: {
+      layout: DashboardLayout
+    },
     props: true
   },
   ///////////////////////////////////////////////////////////////////////
@@ -119,6 +122,9 @@ const routes = [
     name: 'showMentalQuestionaire',
     path: '/InitialMentalQuestionnaire/:id',
     component: showMentalQuestionaire,
+    meta: {
+      layout: DashboardLayout
+    },
     props: true
   },
 

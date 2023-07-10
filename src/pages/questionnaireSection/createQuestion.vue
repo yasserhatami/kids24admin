@@ -1,11 +1,12 @@
 <template >
-    <v-container>
-        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length" :allQuestons="allQuestons">
+    <v-container class="">
+        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length" @update="update"
+           :allQuestons="allQuestons">
         </listOfqestonsOfquestionnaire>
-        <v-row class="">
+        <v-row class=" pa-0 d-flex justify-center align-center">
             <!-- date of question -->
-            <v-col cols="7" sm="8">
-                <div class="box w-100 px-4" type="text">
+            <v-col cols="12" sm="9" class="px-0">
+                <div class="box  px-4" type="text">
                     <input @blur="v$.question.$touch" v-model="question" class="w-100 text-black text-h6"
                         placeholder="متن سوال" type="text" />
                 </div>
@@ -17,72 +18,62 @@
             <!-- date of question -->
 
             <!-- type of question -->
-            <v-col cols="3">
+            <v-col cols="12" sm="3" class="px-0 d-flex justify-center align-center">
+                <v-col class="px-1 " cols="6" sm="6">
 
-                <div @click="dialog = true" @blur="v$.picked.$touch"
-                    class="box text-subtitle-2 text-sm-h6 w-100 pa-2 d-flex justify-center align-center bg-primary text-h6">
+                    <div @click="dialog = true" @blur="v$.picked.$touch"
+                        class="box d-flex justify-center align-center bg-primary ">
 
-                    نوع پاسخ
-                </div>
-                <div class="text-red mb-2 text-subtitle-2 text-sm-h6" v-if="multi">
-                    <div class="text-red">نوع پاسخ باید انتخاب گردد.</div>
-                </div>
-
-
-                <v-dialog v-model="dialog" width="400">
-                    <v-card>
-                        <button class="mr-2 mt-1" color="" block @click="dialog = false"><v-img width="20px" height="20px"
-                                src="@/assets/images/general/remove.png"></v-img></button>
-                        <p class="text-center text-h6 ">نوع پاسخ مورد نظر خود را انتخاب کنید.</p>
+                        نوع پاسخ
+                    </div>
+                    <div class="text-red mb-2 text-subtitle-2 text-sm-h6" v-if="multi">
+                        <div class="text-red">نوع پاسخ باید انتخاب گردد.</div>
+                    </div>
 
 
-                        <div class="radio-toolbar">
-                            <div class=" d-flex justify-space-around my-3">
-                                <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
-                                    id="radioApple" name="radioFruit" value="2">
-                                <label for="radioApple">بله/خیر</label>
+                    <v-dialog v-model="dialog" width="400">
+                        <v-card>
+                            <button class="mr-2 mt-1" color="" block @click="dialog = false"><v-img width="20px"
+                                    height="20px" src="@/assets/images/general/remove.png"></v-img></button>
+                            <p class="text-center text-h6 ">نوع پاسخ مورد نظر خود را انتخاب کنید.</p>
 
-                                <input @change="v$.picked.$touch" @click="multiSelectionSelected" v-model="picked"
-                                    type="radio" id="radioBanana" name="radioFruit" value="4">
-                                <label for="radioBanana">چندگزینه ای</label>
+
+                            <div class="radio-toolbar">
+                                <div class=" d-flex justify-space-around my-3">
+                                    <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
+                                        id="radioApple" name="radioFruit" value="2">
+                                    <label for="radioApple">بله/خیر</label>
+
+                                    <input @change="v$.picked.$touch" @click="multiSelectionSelected" v-model="picked"
+                                        type="radio" id="radioBanana" name="radioFruit" value="4">
+                                    <label for="radioBanana">چندگزینه ای</label>
+                                </div>
+
+                                <div class=" d-flex justify-space-around">
+                                    <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
+                                        id="radioOrange" name="radioFruit" value="1">
+                                    <label for="radioOrange">عددی</label>
+
+                                    <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
+                                        id="tozih" name="radioFruit" value="3">
+                                    <label for="tozih">توضیحی</label>
+                                </div>
                             </div>
 
-                            <div class=" d-flex justify-space-around">
-                                <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
-                                    id="radioOrange" name="radioFruit" value="1">
-                                <label for="radioOrange">عددی</label>
-
-                                <input @change="v$.picked.$touch" @click="dialog = false" v-model="picked" type="radio"
-                                    id="tozih" name="radioFruit" value="3">
-                                <label for="tozih">توضیحی</label>
-                            </div>
-                        </div>
-
-                    </v-card>
-                </v-dialog>
+                        </v-card>
+                    </v-dialog>
 
 
-
-                <!-- <v-dialog v-model="doneQuestion" width="400">
-
-                    <v-card>
-                        <p class="text-center text-h6 mt-3">سوال با موفقیت ثبت شد.</p>
-                        <div class="text-center my-3">
-                            <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
-                                @click="doneQuestion = false">بستن</button>
-                        </div>
-                    </v-card>
-                </v-dialog> -->
-
+                </v-col>
+                <!-- type of question -->
+                <!-- trash -->
+                <v-col class="pl-1 " cols="6" sm="6">
+                    <div class=" box d-flex justify-center align-center bg-red">
+                        <v-icon icon="mdi-trash-can-outline" />
+                    </div>
+                </v-col>
+                <!-- trash -->
             </v-col>
-            <!-- type of question -->
-            <!-- trash -->
-            <v-col cols="2" sm="1">
-                <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
-                    <v-icon icon="mdi-trash-can-outline" />
-                </div>
-            </v-col>
-            <!-- trash -->
         </v-row>
 
         <v-row v-if="picked === '4'">
@@ -92,23 +83,14 @@
         </v-row>
 
         <v-row class="d-flex justify-center align-center ">
-            <button @click="publishQuestion"
-                class="box w-25 bg-primary d-flex text-subtitle-2 text-sm-h6 justify-center my-5">
-                ایجاد سوال بعدی
-            </button>
+            <v-col cols="5">
+                <button @click="publishQuestion" class="box w-100 bg-primary d-flex   text-button justify-center my-5">
+                    ایجاد سوال بعدی
+                </button>
+            </v-col>
         </v-row>
 
-        <v-dialog v-model="finishAlert" width="400">
 
-            <v-card>
-                <p class="text-center text-h6 mt-3">سوال با موفقیت ایجاد شد.</p>
-                <div class="text-center my-3">
-                    <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
-                        @click="doneQuestion = false">بستن
-                    </button>
-                </div>
-            </v-card>
-        </v-dialog>
 
         <v-dialog v-model="finishOperation" width="400">
 
@@ -116,10 +98,10 @@
                 <p class="text-center text-h6 mt-3">با اینکار عملیات ایجاد پرسشنامه به انتها میرسد و سوالات ارسال
                     میشوند،.اطمینان دارید؟</p>
                 <div class="text-center my-3">
+                    <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-primary" color="red" block
+                        @click="finalOperation">بله</button>
                     <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
-                        @click="finalOperation">ادامه</button>
-                    <button class="w-25 mx-auto mr-2 rounded mt-1 pa-0 bg-red" color="red" block
-                        @click="finishOperation = false">خیر</button>
+                        @click="finishOperation = false">بازگشت</button>
                 </div>
             </v-card>
         </v-dialog>
@@ -130,7 +112,7 @@
                     class="box w-50 bg-propurple d-flex justify-center text-subtitle-2 text-sm-h6 mx-2">
                     انتشار
                 </button>
-                <button @click="cleaneForm" class="box w-50 bg-red d-flex text-subtitle-2 text-sm-h6 justify-center mx-2">
+                <button @click="cancelEveryThings" class="box w-50 bg-red d-flex text-subtitle-2 text-sm-h6 justify-center mx-2">
                     انصراف
                 </button><br>
 
@@ -153,7 +135,7 @@ import { ref } from 'vue'
 // import { reactive } from "vue";
 export default {
     name: "createQuestion",
-    props: ['idOfquestionnaire']
+    props: ['idOfquestionnaire', 'questionnaireType']
     ,
     setup() {
         return { v$: useVuelidate() };
@@ -163,12 +145,14 @@ export default {
             finishOperation: ref(false),
             multi: ref(false),
             allQuestons: ref([]),
+            updateQuestions: ref([]),
             question: ref(''),
             dialog: ref(false),
             finishAlert: ref(false),
             picked: ref(''),
             shouldShowMultiSelect: ref(false),
             idOfquestionnaireProped: this.idOfquestionnaire,
+            questionnaireTypepropped: this.questionnaireType
 
         }
     },
@@ -190,7 +174,15 @@ export default {
         listOfqestonsOfquestionnaire
     },
     methods: {
-        cancelEveryThings(){
+        update() {
+            Questionnaire
+                .getAllQuestion(this.idOfquestionnaire)
+                .then((res) => {
+                    this.allQuestons = res;
+                })
+            console.log('yessssss');
+        },
+        cancelEveryThings() {
             this.$emit('cancel-everything');
         },
         finalOperation() {
@@ -234,14 +226,17 @@ export default {
                                         })
                                 }
                             }
-                            // this.finishAlert = true;
-                            // setTimeout(() => {
-                            //     this.finishAlert = false; 
-                            // }, 4000);
                             this.picked = ''
                             this.question = ''
                             this.allQuestons = []
-                            this.cancelEveryThings()
+                            console.log(this.questionnaireType);
+                            this.cancelEveryThings();
+                            if (this.questionnaireTypepropped === 0) {
+                                this.$router.push('/InitialMentalQuestionnaire')
+                            } else {
+
+                                this.$router.push('/InitialQuestionnaire')
+                            }
 
                         }
                     })
@@ -285,17 +280,11 @@ export default {
                     .then((response) => {
                         console.log(response);
                         if (response.id) {
-                            this.doneQuestion = true;
-                            Questionnaire
-                                .getAllQuestion(this.idOfquestionnaire)
-                                .then((res) => {
-                                    this.allQuestons = res;
-                                })
-                            //shart k 4 gozine bashe
+                            // this.doneQuestion = true;
                             if (this.picked === '4') {
                                 for (let i = 1; i <= 4; i++) {
                                     let text = localStorage.getItem(`choice${i}`);
-                                    console.log(`choice${i}`, text);
+
                                     let bodyFormData = new FormData();
                                     const payload = {
                                         text: text,
@@ -307,9 +296,9 @@ export default {
                                     }
                                     Questionnaire
                                         .sendChoices(bodyFormData)
-                                        .then((choiseres) => {
-                                            console.log(choiseres);
-                                        })
+                                    // .then((choiseres) => {
+                                    //     console.log(choiseres);
+                                    // })
                                     this.question = '';
                                     this.picked = ''
                                 }
@@ -317,7 +306,11 @@ export default {
                                 this.question = '';
                                 this.picked = ''
                             }
-
+                            Questionnaire
+                                .getAllQuestion(this.idOfquestionnaire)
+                                .then((res) => {
+                                    this.allQuestons = res;
+                                })
                         }
                     })
             } else {
@@ -374,6 +367,7 @@ export default {
 
 .radio-toolbar label:hover {
     background-color: #66BDAE;
+    color: white;
 }
 
 .radio-toolbar input[type="radio"]:focus+label {

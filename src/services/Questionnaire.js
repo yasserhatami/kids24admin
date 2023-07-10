@@ -1,6 +1,24 @@
 import Api from "@/utils/axios.js";
 //  let token = localStorage.getItem('token')
 const Questionnaire = {
+    searchInAllQuestionnaire: async (title) => {
+        return await Api({
+          url: `/api/admin/questionnaire/?search=${title}&s=false`,
+          method: 'GET',
+        }).then((res) => {
+          return res.data.results
+        })
+      }
+    ,
+    searchInAllQuestionnaireOfS: async (title) => {
+        return await Api({
+          url: `/api/admin/questionnaire/?page=${title}&s=true`,
+          method: 'GET',
+        }).then((res) => {
+          return res.data.results
+        })
+      }
+    ,
     deleteQuestion : async (data,id) => {
         return await Api({
             url: `/api/admin/question/${id}/`,
@@ -11,7 +29,6 @@ const Questionnaire = {
         })
     },
     getSingleQuestionnaire: async (id) => {
-        console.log('injs',id);
         return await Api({
           url: `/api/admin/questionnaire/${id}/`,
           method: 'GET',
