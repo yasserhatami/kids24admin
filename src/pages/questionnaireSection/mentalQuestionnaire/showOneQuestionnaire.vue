@@ -91,7 +91,6 @@ onBeforeMount(() => {
             .then((res) => {
                 console.log(props.id);
                 allQuestons.value = res;
-                console.log('list of ques', res);
 
             })
 
@@ -99,7 +98,6 @@ onBeforeMount(() => {
 
 })
 function deleteItem(title, type, questionnaire, id) {
-    console.log(title, type, questionnaire, id);
     let bodyFormData = new FormData();
     const payload = {
         title: title,

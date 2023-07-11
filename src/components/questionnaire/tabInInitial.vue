@@ -29,7 +29,8 @@
 
         <div class=" mb-10 w-100 footer d-flex justify-center align-center">
           <button v-if="count > 1" value="قبلی" class="mr-3 text-h6" @click="nextarr">قبلی</button>
-          <button v-if="firstTenQuestionnaires.length === 10" value="بعدی" class="mr-3 text-h6" @click="nextarr">بعدی</button>
+          <button v-if="firstTenQuestionnaires.length === 10" value="بعدی" class="mr-3 text-h6"
+            @click="nextarr">بعدی</button>
 
         </div>
       </v-col>
@@ -44,7 +45,7 @@ import { toRefs } from 'vue'
 import { ref, watch, onMounted } from 'vue'
 // import Api from "@/utils/axios.js";
 export default {
-  props: ['updateQuestionnairTable'],
+  props: ['updateQuestionnairTable', 'searchValues'],
   setup(props) {
     const router = useRouter()
     const store = useCunterStore()
@@ -54,17 +55,14 @@ export default {
       store.getvalue(x)
     }
     function updateTable() {
-      console.log('loggggggggggg');
       Questionnaire
         .getAllQuestionnaire(count.value)
         .then((res) => {
-          console.log('fuckkkkkkkkkkkkkkkkkk', res);
           firstTenQuestionnaires.value = res
         })
     }
-
     let { updateQuestionnairTable: updateQuestionnairTableProped } = toRefs(props);
-
+    
     function nextarr(e) {
       if (e.target.value === 'بعدی') {
         count.value++
@@ -98,11 +96,17 @@ export default {
     })
 
     watch(updateQuestionnairTableProped, () => {
-      updateTable()
+      if(props.searchValues.length){
+        firstTenQuestionnaires.value = props.searchValues
+        return
+      }else{
+        updateTable()
+      }
     });
 
 
     return {
+      
       router,
       whatchQuestionnaire,
       count,

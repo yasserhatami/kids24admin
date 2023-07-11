@@ -2,20 +2,20 @@
     <v-card class="bg-primary shadow-none" width="330">
         <v-list v-model:opened="open">
             <v-list-item prepend-icon="mdi-home" title="داشبورد"></v-list-item>
-            <v-list-item prepend-icon="mdi-home" title="کاربران"></v-list-item>
-            <v-list-item prepend-icon="mdi-home" title="تغذیه"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-box-outline" title="کاربران"></v-list-item>
+            <v-list-item prepend-icon="mdi-food-apple" title="تغذیه"></v-list-item>
             <v-list-item prepend-icon="mdi-home" title="بنر"></v-list-item>
             <v-list-item prepend-icon="mdi-home" title="تیکت ها "></v-list-item>
-            <v-list-item prepend-icon="mdi-home" title="ارسال پیام"></v-list-item>
-            <v-list-item prepend-icon="mdi-home" title="پیام برودکست"></v-list-item>
+            <v-list-item prepend-icon="mdi-email-send" title="ارسال پیام"></v-list-item>
+            <v-list-item prepend-icon="mdi-comment-text-multiple-outline" title="پیام برودکست"></v-list-item>
             <v-list-item prepend-icon="mdi-home" title="ابزارها"></v-list-item>
-            <v-list-item prepend-icon="mdi-home" title="انجمن"></v-list-item>
-            <v-list-item prepend-icon="mdi-home" title="نظرات"></v-list-item>
-            <v-list-item prepend-icon="mdi-home" title="پکیج ها"></v-list-item>
-            <v-list-item prepend-icon="mdi-home" title="سوابق مالی"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-group" title="انجمن"></v-list-item>
+            <v-list-item prepend-icon="mdi-comment-quote-outline" title="نظرات"></v-list-item>
+            <v-list-item prepend-icon="mdi-package" title="پکیج ها"></v-list-item>
+            <v-list-item prepend-icon="mdi-finance" title="سوابق مالی"></v-list-item>
 
             <v-list-group value="list">
-                <v-list-group class="d-flex-colomn " value="پرسشنامه">
+                <v-list-group class="d-flex-colomn" value="پرسشنامه">
                     <template v-slot:activator="{ props }">
                         <v-list-item v-bind="props" title="پرسشنامه" prepend-icon="mdi-home"></v-list-item>
 
@@ -27,6 +27,10 @@
 
 
             </v-list-group>
+         
+            
+            <v-list-item prepend-icon="mdi-folder" title="سوالات متداول"></v-list-item>
+            <v-list-item prepend-icon="mdi-folder" title="درباره ما"></v-list-item>
         </v-list>
     </v-card>
 </template>

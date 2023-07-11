@@ -10,17 +10,12 @@
         </div>
       </v-col>
       <v-col cols="4">
-        <select v-if="!ifCreatedQuestionnaire" v-model="selectAgeAverage"
-          class="box w-100 px-4 text-subtitle-2 text-sm-h6" name="pets" id="pet-select">
-          <option selected disabled>انتخاب دسته سنی</option>
-          <option value="6">6 ماه</option>
-          <option value="12">12 ماه </option>
-          <option value="14"> 14 ماه </option>
-          <option value="24">24ماه</option>
-        </select>
+        <input type="number" class="box pr-3 text-subtitle-2 text-sm-h6" placeholder="سن به ماه" v-if="!ifCreatedQuestionnaire" v-model="selectAgeAverage" />
+        
+      
 
         <div v-else class="box w-100 px-4" type="text">
-          <input readonly="2+2" class="w-100 text-black" :placeholder="selectAgeAverage" />
+          <input readonly="2+2" class="w-100 text-black" :placeholder="`${selectAgeAverage }ماه  `" />
 
         </div>
 
@@ -48,7 +43,7 @@
     <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
     <!-- bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb -->
     <v-row>
-      <createQuestion v-if="ifCreatedQuestionnaire" @cancel-everything="cancelEveryThing" :idOfquestionnaire="idOfquestionnaire"></createQuestion>
+      <createQuestion v-if="ifCreatedQuestionnaire" @cancel-everything="cancelEveryThing" :questionnaireType="questionnaireType" :idOfquestionnaire="idOfquestionnaire"></createQuestion>
     </v-row>
 
 
@@ -72,8 +67,9 @@ export default {
     let ifCreatedQuestionnaire = ref(false)
     let idOfquestionnaire = ref('')
     let title = ref('')
-    let selectAgeAverage = ref('انتخاب دسته سنی');
+    let selectAgeAverage = ref();
     let doneQuestionnaire = ref(false);
+    let questionnaireType = ref(0)
 
     ///////////////////////////////////////
     function createQuestionnaire() {
@@ -117,7 +113,7 @@ export default {
     }
 
 
-    return { v$: useVuelidate(), idOfquestionnaire, createQuestionnaire, doneQuestionnaire, title, selectAgeAverage, ifCreatedQuestionnaire,loading ,cancelEveryThing };
+    return {questionnaireType, v$: useVuelidate(), idOfquestionnaire, createQuestionnaire, doneQuestionnaire, title, selectAgeAverage, ifCreatedQuestionnaire,loading ,cancelEveryThing };
 
   },
 
