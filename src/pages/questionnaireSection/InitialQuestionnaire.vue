@@ -32,7 +32,7 @@
 import { useCunterStore } from '@/store/questonnaireStore.js'
 import Questionnaire from '@/services/Questionnaire'
 import tabInInitial from "@/components/questionnaire/tabInInitial.vue";
-import { ref } from 'vue';
+import { ref,watch } from 'vue';
 export default {
     setup() {
         
@@ -58,14 +58,18 @@ export default {
 
            
         }
+        watch(search,()=>{
+            if(search.value === ''){
+                searchValues.value = '';
+                updateQuestionnairTable.value =! updateQuestionnairTable.value
+            }
+        })
 
         function searchTitle(){
             Questionnaire
              .searchInAllQuestionnaire(search.value)
              .then((res)=>{
-                console.log(res);
-                searchValues.value = res
-                console.log(searchValues.value);
+                searchValues.value = res;
                 updateQuestionnairTable.value =! updateQuestionnairTable.value
                 
              })

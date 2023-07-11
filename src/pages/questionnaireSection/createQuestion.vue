@@ -1,9 +1,8 @@
 <template >
     <v-container class="">
-        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length" @update="update"
-           :allQuestons="allQuestons">
+        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length" @update="update" :allQuestons="allQuestons">
         </listOfqestonsOfquestionnaire>
-        <v-row class=" pa-0 d-flex justify-center align-center">
+        <v-row v-if="cancelCreate" class=" pa-0 d-flex justify-center align-center">
             <!-- date of question -->
             <v-col cols="12" sm="9" class="px-0">
                 <div class="box  px-4" type="text">
@@ -69,7 +68,7 @@
                 <!-- trash -->
                 <v-col class="pl-1 " cols="6" sm="6">
                     <div class=" box d-flex justify-center align-center bg-red">
-                        <v-icon icon="mdi-trash-can-outline" />
+                        <v-icon @click="cancelCreateQuestion" icon="mdi-trash-can-outline" />
                     </div>
                 </v-col>
                 <!-- trash -->
@@ -112,7 +111,8 @@
                     class="box w-50 bg-propurple d-flex justify-center text-subtitle-2 text-sm-h6 mx-2">
                     انتشار
                 </button>
-                <button @click="cancelEveryThings" class="box w-50 bg-red d-flex text-subtitle-2 text-sm-h6 justify-center mx-2">
+                <button @click="cancelEveryThings"
+                    class="box w-50 bg-red d-flex text-subtitle-2 text-sm-h6 justify-center mx-2">
                     انصراف
                 </button><br>
 
@@ -127,6 +127,10 @@
 </template>
 <script>
 import listOfqestonsOfquestionnaire from "@/components/questionnaire/listOfqestonsOfquestionnaire.vue"
+
+import { useCunterStore } from '@/store/questonnaireStore.js'
+import { mapState, mapActions } from "pinia";
+
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import Questionnaire from '@/services/Questionnaire'
@@ -152,13 +156,17 @@ export default {
             picked: ref(''),
             shouldShowMultiSelect: ref(false),
             idOfquestionnaireProped: this.idOfquestionnaire,
-            questionnaireTypepropped: this.questionnaireType
+            questionnaireTypepropped: this.questionnaireType,
+            cancelCreate : ref(true)
 
         }
     },
     watch: {
         allQuestons() {
         }
+    },
+    computed: {
+        ...mapState(useCunterStore, ["choices"])
     },
 
     validations() {
@@ -174,6 +182,19 @@ export default {
         listOfqestonsOfquestionnaire
     },
     methods: {
+        ...mapActions(useCunterStore, ["clearChoices"]),
+        sss() {
+            // for (const item of this.choices) {
+            //     console.log(item);
+            // }
+            for (const item of this.choices[0]) {
+                console.log(item);
+             
+           
+            }
+            console.log(this.choices[0]);
+        }
+        ,
         update() {
             Questionnaire
                 .getAllQuestion(this.idOfquestionnaire)
@@ -229,7 +250,6 @@ export default {
                             this.picked = ''
                             this.question = ''
                             this.allQuestons = []
-                            console.log(this.questionnaireType);
                             this.cancelEveryThings();
                             if (this.questionnaireTypepropped === 0) {
                                 this.$router.push('/InitialMentalQuestionnaire')
@@ -251,6 +271,11 @@ export default {
 
             }
         },
+        cancelCreateQuestion(){
+            this.picked = ''
+            this.question =''
+            this.cancelCreate = false
+        },
 
         multiSelectionSelected() {
             this.shouldShowMultiSelect = true;
@@ -261,6 +286,10 @@ export default {
             this.dialog = false
         },
         publishQuestion() {
+            if(this.cancelCreate == false){
+                this.cancelCreate = true
+                return
+            }
             if (!this.v$.$invalid) {
                 let bodyFormData = new FormData();
                 const payload = {
@@ -282,12 +311,11 @@ export default {
                         if (response.id) {
                             // this.doneQuestion = true;
                             if (this.picked === '4') {
-                                for (let i = 1; i <= 4; i++) {
-                                    let text = localStorage.getItem(`choice${i}`);
-
+                                for (const item of this.choices[0]) {
+                                    console.log(item);
                                     let bodyFormData = new FormData();
                                     const payload = {
-                                        text: text,
+                                        text: item,
                                         question: response.id,
                                     };
                                     for (const key in payload) {
@@ -302,6 +330,8 @@ export default {
                                     this.question = '';
                                     this.picked = ''
                                 }
+                                this.clearChoices()
+
                             } else {
                                 this.question = '';
                                 this.picked = ''
@@ -323,9 +353,6 @@ export default {
                 }
 
             }
-        },
-        cleaneForm() {
-
         }
     }
 }

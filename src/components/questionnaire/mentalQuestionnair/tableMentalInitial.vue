@@ -15,10 +15,8 @@
                 <input @change="deleteQuestonnaire(q.id)" class="" type="checkbox">
               </td>
               <td>{{ q.title }}</td>
-              <td v-if="q.which_age === 6"> شش ماه </td>
-              <td v-if="q.which_age === 12"> دوازده ماه </td>
-              <td v-if="q.which_age === 14"> چهارده ماه </td>
-              <td v-if="q.which_age === 24"> بیست و چهار ماه </td>
+              <td> {{ q.which_age }} ماه</td>
+          
               <td>{{ q.create_at }}</td>
               <td>
                 <v-icon @click="whatchQuestionnaire(q.id)" icon="mdi-eye" />
@@ -32,7 +30,7 @@
   
           <div class="mb-10 w-100 footer d-flex justify-center align-center">
             <button v-if="count > 1" value="قبلی" class="mr-3" @click="nextarr">قبلی</button>
-            <button v-if="firstTenQuestionnaires.length < 10" value="بعدی" class="mr-3" @click="nextarr">بعدی</button>
+            <button v-if="firstTenQuestionnaires.length === 10" value="بعدی" class="mr-3" @click="nextarr">بعدی</button>
   
   
           </div>
@@ -48,7 +46,7 @@
   import { ref, watch, onMounted } from 'vue'
   // import Api from "@/utils/axios.js";
   export default {
-    props: ['updateQuestionnairTable'],
+    props: ['updateQuestionnairTable','searchValues'],
     setup(props) {
       const router = useRouter()
       const store = useCunterStore()
@@ -58,11 +56,9 @@
         store.getvalue(x)
       }
       function updateTable() {
-        console.log('loggggggggggg');
         Questionnaire
-          .getAllQuestionnaire(count.value)
+          .getAllQuestionnaireOfS(count.value)
           .then((res) => {
-            console.log('fuckkkkkkkkkkkkkkkkkk',res);
 
             firstTenQuestionnaires.value = res
           })
@@ -98,14 +94,19 @@
         Questionnaire.
         getAllQuestionnaireOfS(firstCount)
           .then((res) => {
-            console.log('jjjjjjjjjjjjjjjjjjjjjjj',res);
-            firstTenQuestionnaires.value = res
+            firstTenQuestionnaires.value = res;
+            console.log(firstTenQuestionnaires.value.length);
           })
       })
   
       watch(updateQuestionnairTableProped, () => {
+      if(props.searchValues.length){
+        firstTenQuestionnaires.value = props.searchValues
+        return
+      }else{
         updateTable()
-      });
+      }
+    });
   
   
       return {

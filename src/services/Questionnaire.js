@@ -12,7 +12,7 @@ const Questionnaire = {
     ,
     searchInAllQuestionnaireOfS: async (title) => {
         return await Api({
-          url: `/api/admin/questionnaire/?page=${title}&s=true`,
+          url: `/api/admin/questionnaire/?search=${title}&s=true`,
           method: 'GET',
         }).then((res) => {
           return res.data.results

@@ -98,20 +98,11 @@ export default {
     watch(updateQuestionnairTableProped, () => {
       if(props.searchValues.length){
         firstTenQuestionnaires.value = props.searchValues
-        console.log('bgbgbgbgb');
         return
       }else{
         updateTable()
       }
-
-      console.log( props.searchValues);
-
-    
-
     });
-    // watch(searchValuesproped,()=>{
-    
-    // })
 
 
     return {

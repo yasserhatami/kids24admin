@@ -14,7 +14,7 @@
                         <span v-if=" q.question_type === 3">توضیحی</span>
                         <span v-if=" q.question_type === 2">بله/خیر</span>
                         <span v-if=" q.question_type === 1">عددی</span>
-                        <span v-if=" q.question_type === 4">چهارگزینه ای</span>
+                        <span v-if=" q.question_type === 4">چندگزینه ای</span>
                     </div>
                 </v-col>
                 <v-col cols="1">

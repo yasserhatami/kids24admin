@@ -3,8 +3,8 @@
         <v-row class="px-10 px-md-0">
             <v-col cols="12" sm="6" class="pa-0 pa-md-3">
                 <div class="box w-100 pa-2" type="text">
-                    <input class="w-100" placeholder="جست و جو..." type="text" />
-                    <v-icon icon="mdi-magnify"></v-icon>
+                    <input  v-model="search" class="w-100" placeholder="جست و جو..." type="text" />
+                    <v-icon  @click="searchTitle" icon="mdi-magnify"></v-icon>
                 </div>
             </v-col>
             <v-col class="pa-0 pa-md-3" cols="12" sm="3">
@@ -23,7 +23,7 @@
 
         </v-row>
         <v-row class="mt-9">
-            <tabInMentalInitial :updateQuestionnairTable = updateQuestionnairTable></tabInMentalInitial>
+            <tabInMentalInitial :searchValues="searchValues" :updateQuestionnairTable = updateQuestionnairTable></tabInMentalInitial>
         </v-row>
         <router-view></router-view>
     </v-container>
@@ -32,10 +32,13 @@
 import { useCunterStore } from '@/store/mentalQuestonnaireStore.js'
 import Questionnaire from '@/services/Questionnaire'
 import tabInMentalInitial from "@/components/questionnaire/mentalQuestionnair/tableMentalInitial.vue";
-import { ref } from 'vue';
+import { ref,watch } from 'vue';
 export default {
     setup() {
         const store = useCunterStore()
+        let search = ref('')
+        
+        let searchValues = ref([])
         let updateQuestionnairTable = ref(true)
 
         function deleteItems() {
@@ -54,8 +57,24 @@ export default {
 
            
         }
+        watch(search,()=>{
+            if(search.value === ''){
+                searchValues.value = '';
+                updateQuestionnairTable.value =! updateQuestionnairTable.value
+            }
+        })
 
-        return { store, deleteItems ,updateQuestionnairTable}
+        function searchTitle(){
+            Questionnaire
+             .searchInAllQuestionnaireOfS(search.value)
+             .then((res)=>{
+                searchValues.value = res;
+                updateQuestionnairTable.value =! updateQuestionnairTable.value
+                
+             })
+        }
+
+        return { store, deleteItems ,updateQuestionnairTable,search,searchTitle,searchValues}
     },
     data() {
         return {
