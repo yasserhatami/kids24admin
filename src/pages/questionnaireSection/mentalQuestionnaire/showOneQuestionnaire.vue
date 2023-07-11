@@ -11,18 +11,9 @@
                         </div>
 
                         <div class="d-flex justify-start">
-                            <h3 v-if="q.which_age === 6">
-                                بازه سنی : شش ماه
-                            </h3>
-                            <h3 v-if="q.which_age === 12">
-                                بازه سنی : دوازده ماه
-                            </h3>
-                            <h3 v-if="q.which_age === 14">
-                                بازه سنی : چهارده ماه
-                            </h3>
-                            <h3 v-if="q.which_age === 24">
-                                بازه سنی : بیست و چهار ماه
-                            </h3>
+                        <h3>
+                           بازه سنی : {{ q.which_age }} ماه
+                        </h3>
                         </div>
                     </div>
                 </v-row>

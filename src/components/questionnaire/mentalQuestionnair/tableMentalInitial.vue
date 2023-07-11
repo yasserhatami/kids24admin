@@ -15,10 +15,8 @@
                 <input @change="deleteQuestonnaire(q.id)" class="" type="checkbox">
               </td>
               <td>{{ q.title }}</td>
-              <td v-if="q.which_age === 6"> شش ماه </td>
-              <td v-if="q.which_age === 12"> دوازده ماه </td>
-              <td v-if="q.which_age === 14"> چهارده ماه </td>
-              <td v-if="q.which_age === 24"> بیست و چهار ماه </td>
+              <td> {{ q.which_age }} ماه</td>
+          
               <td>{{ q.create_at }}</td>
               <td>
                 <v-icon @click="whatchQuestionnaire(q.id)" icon="mdi-eye" />

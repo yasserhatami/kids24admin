@@ -229,7 +229,6 @@ export default {
                             this.picked = ''
                             this.question = ''
                             this.allQuestons = []
-                            console.log(this.questionnaireType);
                             this.cancelEveryThings();
                             if (this.questionnaireTypepropped === 0) {
                                 this.$router.push('/InitialMentalQuestionnaire')
