@@ -11,14 +11,14 @@
                 <div class="error-msg">{{ error.$message }}</div>
             </div>
 
-            <v-text-field bg-color="#F9F9F9" autocomplete="true" @blur="v$.password.$touch" placeholder="رمز عبور"
+            <v-text-field @keyup.enter="onPressEnter"  bg-color="#F9F9F9" autocomplete="true" @blur="v$.password.$touch" placeholder="رمز عبور"
                 class="mb-0 pb-0 text-field" v-model="state.password" variant="solo"></v-text-field>
             <div class="text-red mb-2 text-subtitle-1" v-for="error of v$.password.$errors" :key="error.$id">
                 <div class="error-msg">{{ error.$message }}</div>
             </div>
 
             <div>
-                <v-btn @click="login()" block variant="elevated" class="btn mt-5">
+                <v-btn  @click="login()" block variant="elevated" class="btn mt-5">
                     <span v-if="activeLoading">ورود</span>
                     <v-progress-circular v-else indeterminate :size="34" :width="5"></v-progress-circular>
                 </v-btn>
@@ -99,8 +99,38 @@ export default {
 
 
         }
+        // function aa(){
+        //     console.log('ssssssssss');
+        // }
+        function onPressEnter(){
+            if(state.password.length){
+                activeLoading.value = false;
+                auth
+                    .login({
+                        phone_number: state.userName,
+                        password: state.password
+                    }).then((res) => {
+                        console.log(res);
+                        if (res.access) {
+                            localStorage.setItem("token", `Bearer ${res.access}`);
+                            router.push('/Dashboard')
+                        } else {
+                            activeLoading.value = true;
+                            notMatchWarn.value = true
+                            setTimeout(() => {
+                                notMatchWarn.value = false;
+                            }, 4000);
+                            state.userName = '',
+                                state.password = ''
+                        }
 
-        return { v$, state, correct, activeLoading, notMatchWarn, login };
+                    })
+            }else{
+                console.log('naaaaaaa');
+            }
+        }
+
+        return { v$, state, correct, activeLoading, notMatchWarn, login,onPressEnter };
     }
 };
 </script>

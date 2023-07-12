@@ -3,8 +3,8 @@
         <v-row class="px-10 px-md-0">
             <v-col cols="12" sm="6" class="pa-0 pa-md-3">
                 <div class="box w-100 pa-2" type="text">
-                    <input  v-model="search" class="w-100" placeholder="جست و جو..." type="text" />
-                    <v-icon  @click="searchTitle" icon="mdi-magnify"></v-icon>
+                    <input @keyup="searchTitle" v-model="search" class="w-100" placeholder="جست و جو..." type="text" />
+                    <v-icon   icon="mdi-magnify"></v-icon>
                 </div>
             </v-col>
             <v-col class="pa-0 pa-md-3" cols="12" sm="3">

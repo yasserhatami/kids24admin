@@ -4,7 +4,7 @@
       <v-col class="">
         <table id="customers" class="" dir="rtl">
           <tr class="">
-            <th class="text-center first"><input class="" type="checkbox" /></th>
+            <th class="text-center first"></th>
             <th class="text-center"> نام پرسشنامه</th>
             <th class="text-center"> سن پرسشنامه</th>
             <th class="text-center ">تاریخ</th>

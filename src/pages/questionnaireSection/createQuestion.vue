@@ -67,8 +67,8 @@
                 <!-- type of question -->
                 <!-- trash -->
                 <v-col class="pl-1 " cols="6" sm="6">
-                    <div class=" box d-flex justify-center align-center bg-red">
-                        <v-icon @click="cancelCreateQuestion" icon="mdi-trash-can-outline" />
+                    <div  class=" box d-flex justify-center align-center bg-red">
+                        <v-icon  icon="mdi-trash-can-outline" />
                     </div>
                 </v-col>
                 <!-- trash -->
@@ -78,6 +78,16 @@
         <v-row v-if="picked === '4'">
             <div class="w-100">
                 <multiSelecton></multiSelecton>
+            </div>
+        </v-row>
+        <v-row v-if="picked === '2'">
+            <div class="w-100 d-flex justify-center align-center">
+                <button class="box mx-2 d-flex justify-center align-center  w-25" disabled><span>بله</span></button>
+                <button class="box mx-2 d-flex justify-center align-center text-center w-25"
+                    disabled><span>خیر</span></button>
+            </div>
+            <div class="w-100 mt-3">
+                <input class="box mx-2 pr-3 w-75" type="text" disabled placeholder="توضیحات">
             </div>
         </v-row>
 
@@ -157,7 +167,7 @@ export default {
             shouldShowMultiSelect: ref(false),
             idOfquestionnaireProped: this.idOfquestionnaire,
             questionnaireTypepropped: this.questionnaireType,
-            cancelCreate : ref(true)
+            cancelCreate: ref(true)
 
         }
     },
@@ -189,8 +199,8 @@ export default {
             // }
             for (const item of this.choices[0]) {
                 console.log(item);
-             
-           
+
+
             }
             console.log(this.choices[0]);
         }
@@ -207,6 +217,7 @@ export default {
             this.$emit('cancel-everything');
         },
         finalOperation() {
+
             if (!this.v$.$invalid) {
                 let bodyFormData = new FormData();
                 const payload = {
@@ -261,6 +272,7 @@ export default {
                         }
                     })
             } else {
+                console.log('nissssssssssssssssssss');
                 if (this.v$.picked.$invalid) {
                     this.multi = true
                     setTimeout(() => {
@@ -271,9 +283,13 @@ export default {
 
             }
         },
-        cancelCreateQuestion(){
+        cancelCreateQuestion() {
+            console.log('ccccccccccccccccc');
             this.picked = ''
-            this.question =''
+            this.question = ''
+            this.v$.question.$reset()
+            this.v$.picked.$reset()
+           
             this.cancelCreate = false
         },
 
@@ -286,7 +302,7 @@ export default {
             this.dialog = false
         },
         publishQuestion() {
-            if(this.cancelCreate == false){
+            if (this.cancelCreate == false) {
                 this.cancelCreate = true
                 return
             }
@@ -415,23 +431,7 @@ input::placeholder {
     ;
 }
 
-.box {
-    background: #ffffff;
-    border: 1px solid #d9d9d9;
-    border-radius: 10px;
-    height: 60px;
-    font-family: "DanaFaNum";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 30px;
 
-    display: flex;
-    align-items: center;
-    text-align: right;
-
-    color: #272b31;
-}
 
 .bb {
     width: 100%;

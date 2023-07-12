@@ -3,15 +3,15 @@
     <v-row class="">
       <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaa -->
       <v-col cols="5" class="px-1">
-        <div class="box w-100 px-4" type="text">
-          <input :readonly="ifCreatedQuestionnaire" v-model="title" class="w-100 text-black text-subtitle-2 text-sm-h6"
+        <div class="box w-100 px-4 " type="text">
+          <input :readonly="ifCreatedQuestionnaire" v-model="title" class=" w-100 text-black text-subtitle-2 text-sm-h6 "
             placeholder="نام پرسشنامه" type="text" />
 
         </div>
       </v-col>
       <v-col class="px-1" cols="4">
         <select v-if="!ifCreatedQuestionnaire" v-model="selectAgeAverage"
-          class="box w-100 px-4 text-subtitle-2 text-sm-h6" name="pets" id="pet-select">
+          class=" bg-white  box w-100 px-4 text-subtitle-2 text-sm-h6" name="pets" id="pet-select">
           <option selected disabled>انتخاب دسته سنی</option>
           <option value="A">بالای دو سال</option>
           <option value="U">زیر دو سال</option>

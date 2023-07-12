@@ -23,15 +23,16 @@
             <div class="border rounded pa-7  my-3" v-for="q in allQuestons.value" :key="q.id">
 
                 <v-row>
-                    <v-col cols="9">
+                    <v-col cols="8">
                         <div class="box w-100 px-4" type="text">
-                            <input disabled class="w-100 text-black" :placeholder="q.title" />
+                            <input v-model="editedTitle" :disabled="desable" class="w-100 text-black"
+                                :placeholder="q.title" />
                         </div>
                     </v-col>
                     <v-col cols="2">
 
                         <div class="text-subtitle-1 box btn w-100 pa-2 d-flex justify-center align-center bg-primary">
-                            
+
                             <span v-if="q.question_type === 1">توضیحی</span>
 
                             <span v-if="q.question_type === 2">بله/خیر</span>
@@ -40,8 +41,16 @@
                         </div>
                     </v-col>
                     <v-col cols="1">
+                        <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-blue">
+                            <v-icon @click="editQuestion(q.title, q.question_type, q.questionnaire, q.id)" icon="mdi-pencil"
+                                size="large" />
+                        </div>
+                    </v-col>
+
+                    <v-col cols="1">
                         <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
-                            <v-icon  @click="deleteItem(q.title,q.question_type,q.questionnaire,q.id)" icon="mdi-trash-can-outline" />
+                            <v-icon @click="deleteItem(q.title, q.question_type, q.questionnaire, q.id)"
+                                icon="mdi-trash-can-outline" size="large" />
                         </div>
                     </v-col>
                 </v-row>
@@ -52,13 +61,23 @@
                         </div>
                     </div>
                 </v-row>
+                <v-row v-if="q.question_type_display === 'yes no'">
+                    <div class="w-100 d-flex justify-center align-center">
+                        <button class="box mx-2 d-flex justify-center align-center  w-25" disabled><span>بله</span></button>
+                        <button class="box mx-2 d-flex justify-center align-center text-center w-25"
+                            disabled><span>خیر</span></button>
+                    </div>
+                    <div class="w-100 mt-3">
+                        <input class="box mx-2 pr-3 w-75" type="text" disabled placeholder="توضیحات">
+                    </div>
+                </v-row>
             </div>
         </w-row>
     </v-container>
 </template>
 
 <script setup>
-import { defineProps, onBeforeMount, reactive } from "vue";
+import { defineProps, onBeforeMount, reactive, ref } from "vue";
 import Questionnaire from '@/services/Questionnaire'
 
 const props = defineProps({
@@ -67,8 +86,10 @@ const props = defineProps({
         required: true,
     }
 })
+let editedTitle = ref('')
 let data = reactive({})
 let allQuestons = reactive({});
+let desable = ref(true)
 
 onBeforeMount(() => {
     Questionnaire
@@ -87,6 +108,8 @@ onBeforeMount(() => {
 
 
 })
+
+
 function deleteItem(title, type, questionnaire, id) {
     console.log(title, type, questionnaire, id);
     let bodyFormData = new FormData();
@@ -102,13 +125,17 @@ function deleteItem(title, type, questionnaire, id) {
     }
     Questionnaire
         .deleteQuestion(bodyFormData, id)
-        .then(()=>{
-        Questionnaire
-            .getAllQuestion(props.id)
-            .then((res) => {
-                allQuestons.value = res;
-            })
+        .then(() => {
+            Questionnaire
+                .getAllQuestion(props.id)
+                .then((res) => {
+                    allQuestons.value = res;
+                })
         })
+}
+function editQuestion() {
+    desable.value = false;
+
 }
 
 </script>
