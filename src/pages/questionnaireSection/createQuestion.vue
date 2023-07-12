@@ -1,9 +1,8 @@
 <template >
     <v-container class="">
-        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length" @update="update"
-           :allQuestons="allQuestons">
+        <listOfqestonsOfquestionnaire v-if="allQuestons && allQuestons.length" @update="update" :allQuestons="allQuestons">
         </listOfqestonsOfquestionnaire>
-        <v-row class=" pa-0 d-flex justify-center align-center">
+        <v-row v-if="cancelCreate" class=" pa-0 d-flex justify-center align-center">
             <!-- date of question -->
             <v-col cols="12" sm="9" class="px-0">
                 <div class="box  px-4" type="text">
@@ -68,8 +67,8 @@
                 <!-- type of question -->
                 <!-- trash -->
                 <v-col class="pl-1 " cols="6" sm="6">
-                    <div class=" box d-flex justify-center align-center bg-red">
-                        <v-icon icon="mdi-trash-can-outline" />
+                    <div  class=" box d-flex justify-center align-center bg-red">
+                        <v-icon  icon="mdi-trash-can-outline" />
                     </div>
                 </v-col>
                 <!-- trash -->
@@ -79,6 +78,16 @@
         <v-row v-if="picked === '4'">
             <div class="w-100">
                 <multiSelecton></multiSelecton>
+            </div>
+        </v-row>
+        <v-row v-if="picked === '2'">
+            <div class="w-100 d-flex justify-center align-center">
+                <button class="box mx-2 d-flex justify-center align-center  w-25" disabled><span>بله</span></button>
+                <button class="box mx-2 d-flex justify-center align-center text-center w-25"
+                    disabled><span>خیر</span></button>
+            </div>
+            <div class="w-100 mt-3">
+                <input class="box mx-2 pr-3 w-75" type="text" disabled placeholder="توضیحات">
             </div>
         </v-row>
 
@@ -112,7 +121,8 @@
                     class="box w-50 bg-propurple d-flex justify-center text-subtitle-2 text-sm-h6 mx-2">
                     انتشار
                 </button>
-                <button @click="cancelEveryThings" class="box w-50 bg-red d-flex text-subtitle-2 text-sm-h6 justify-center mx-2">
+                <button @click="cancelEveryThings"
+                    class="box w-50 bg-red d-flex text-subtitle-2 text-sm-h6 justify-center mx-2">
                     انصراف
                 </button><br>
 
@@ -127,6 +137,10 @@
 </template>
 <script>
 import listOfqestonsOfquestionnaire from "@/components/questionnaire/listOfqestonsOfquestionnaire.vue"
+
+import { useCunterStore } from '@/store/questonnaireStore.js'
+import { mapState, mapActions } from "pinia";
+
 import useVuelidate from "@vuelidate/core";
 import { required, helpers } from "@vuelidate/validators";
 import Questionnaire from '@/services/Questionnaire'
@@ -152,13 +166,17 @@ export default {
             picked: ref(''),
             shouldShowMultiSelect: ref(false),
             idOfquestionnaireProped: this.idOfquestionnaire,
-            questionnaireTypepropped: this.questionnaireType
+            questionnaireTypepropped: this.questionnaireType,
+            cancelCreate: ref(true)
 
         }
     },
     watch: {
         allQuestons() {
         }
+    },
+    computed: {
+        ...mapState(useCunterStore, ["choices"])
     },
 
     validations() {
@@ -174,6 +192,19 @@ export default {
         listOfqestonsOfquestionnaire
     },
     methods: {
+        ...mapActions(useCunterStore, ["clearChoices"]),
+        sss() {
+            // for (const item of this.choices) {
+            //     console.log(item);
+            // }
+            for (const item of this.choices[0]) {
+                console.log(item);
+
+
+            }
+            console.log(this.choices[0]);
+        }
+        ,
         update() {
             Questionnaire
                 .getAllQuestion(this.idOfquestionnaire)
@@ -186,6 +217,7 @@ export default {
             this.$emit('cancel-everything');
         },
         finalOperation() {
+
             if (!this.v$.$invalid) {
                 let bodyFormData = new FormData();
                 const payload = {
@@ -240,6 +272,7 @@ export default {
                         }
                     })
             } else {
+                console.log('nissssssssssssssssssss');
                 if (this.v$.picked.$invalid) {
                     this.multi = true
                     setTimeout(() => {
@@ -249,6 +282,15 @@ export default {
                 }
 
             }
+        },
+        cancelCreateQuestion() {
+            console.log('ccccccccccccccccc');
+            this.picked = ''
+            this.question = ''
+            this.v$.question.$reset()
+            this.v$.picked.$reset()
+           
+            this.cancelCreate = false
         },
 
         multiSelectionSelected() {
@@ -260,6 +302,10 @@ export default {
             this.dialog = false
         },
         publishQuestion() {
+            if (this.cancelCreate == false) {
+                this.cancelCreate = true
+                return
+            }
             if (!this.v$.$invalid) {
                 let bodyFormData = new FormData();
                 const payload = {
@@ -281,12 +327,11 @@ export default {
                         if (response.id) {
                             // this.doneQuestion = true;
                             if (this.picked === '4') {
-                                for (let i = 1; i <= 4; i++) {
-                                    let text = localStorage.getItem(`choice${i}`);
-
+                                for (const item of this.choices[0]) {
+                                    console.log(item);
                                     let bodyFormData = new FormData();
                                     const payload = {
-                                        text: text,
+                                        text: item,
                                         question: response.id,
                                     };
                                     for (const key in payload) {
@@ -301,6 +346,8 @@ export default {
                                     this.question = '';
                                     this.picked = ''
                                 }
+                                this.clearChoices()
+
                             } else {
                                 this.question = '';
                                 this.picked = ''
@@ -322,9 +369,6 @@ export default {
                 }
 
             }
-        },
-        cleaneForm() {
-
         }
     }
 }
@@ -387,23 +431,7 @@ input::placeholder {
     ;
 }
 
-.box {
-    background: #ffffff;
-    border: 1px solid #d9d9d9;
-    border-radius: 10px;
-    height: 60px;
-    font-family: "DanaFaNum";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 30px;
 
-    display: flex;
-    align-items: center;
-    text-align: right;
-
-    color: #272b31;
-}
 
 .bb {
     width: 100%;

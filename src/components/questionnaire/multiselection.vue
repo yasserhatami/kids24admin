@@ -5,13 +5,14 @@
        <div class="d-flex justify-start align-center   mr-2">
        <div v-for="(input,index) in inputs" :key="input.id"  class=" w-25 box mr-2  px-4">
          <input id='ss'  ref="ssss" v-model="inputs[index]" class="w-100 text-black"  type="text" />
+         
        </div>
-       <v-icon class="text-right" v-if="count <=2" @click="addInput" color="success" icon="mdi-plus"></v-icon>
+       <v-icon class="text-right" v-if="finishChoices" @click="addInput" color="success" icon="mdi-plus"></v-icon>
      </div>
    
-     <div  v-if="count === 3" class=" mt-3 d-flex justify-center"> 
+     <div   class=" mt-3 d-flex justify-center"> 
          <button class="bg-primary my-2 py-2 px-4 rounded-lg" @click.once="addLastInput">
-           تایید گزینه ها
+           اتمام گزینه ها
          </button>
      </div>
      <v-dialog v-model="doneChoices" width="400">
@@ -34,46 +35,48 @@
 <script>
 import { ref } from 'vue';
 import useVuelidate from "@vuelidate/core";
-// import { required, minLength } from "@vuelidate/validators";
-// import { reactive } from 'vue';
+import { useCunterStore } from '@/store/questonnaireStore.js'
 
 export default {
   name: 'multiSelection',
   setup() {
+    let store = useCunterStore()
+    let doneChoices = ref(false)
+    let inputs = ref([])
+    let count = ref(0)
+    let finishChoices = ref(true)
 
-    return { v$: useVuelidate() }
+    function addInput() {
+
+      inputs.value.push(inputs.value.length + 1)
+    }
+
+    function  addLastInput() {
+      store.getchoices(inputs.value)
+      console.log(inputs.value);
+      doneChoices.value = true;
+      finishChoices.value = false
+    }
+
+    return { v$: useVuelidate(), doneChoices, inputs, count, addInput,store,addLastInput,finishChoices }
   },
   data() {
     return {
-      doneChoices: ref(false),
-      inputs: ref([]),
-      count: ref(-1)
+
     }
   },
   // validations() {
   //   return {
   //     inputs
-      
+
   //     : { required , minLength },
 
   //   }
   // },
   methods: {
-    addInput() {
 
-      this.inputs.push(this.inputs.length + 1)
-      if (this.count >= 0) {
-        localStorage.setItem(`choice${this.count + 1}`, this.inputs[this.count])
-      }
-      this.count++
-    }
-    ,
-    addLastInput() {
-      console.log('done');
 
-      localStorage.setItem(`choice${this.count + 1}`, this.inputs[this.count])
-      this.doneChoices = true;
-    }
+   
   }
 
 }

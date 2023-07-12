@@ -11,9 +11,9 @@
                         </div>
 
                         <div class="d-flex justify-start">
-                        <h3>
-                           بازه سنی : {{ q.which_age }} ماه
-                        </h3>
+                            <h3>
+                                بازه سنی : {{ q.which_age }} ماه
+                            </h3>
                         </div>
                     </div>
                 </v-row>
@@ -41,7 +41,8 @@
                     </v-col>
                     <v-col cols="1">
                         <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-red">
-                            <v-icon @click="deleteItem(q.title,q.question_type,q.questionnaire,q.id)" icon="mdi-trash-can-outline" />
+                            <v-icon @click="deleteItem(q.title, q.question_type, q.questionnaire, q.id)"
+                                icon="mdi-trash-can-outline" />
                         </div>
                     </v-col>
                 </v-row>
@@ -50,6 +51,16 @@
                         <div v-for="(input, index) in q.choices" :key="index" class=" w-25 box mr-2  px-4" type="text">
                             <input id='ss' ref="ssss" :placeholder="input.text" class="w-100 text-black" disabled />
                         </div>
+                    </div>
+                </v-row>
+                <v-row v-if="q.question_type_display === 'yes no'">
+                    <div class="w-100 d-flex justify-center align-center">
+                        <button class="box mx-2 d-flex justify-center align-center  w-25" disabled><span>بله</span></button>
+                        <button class="box mx-2 d-flex justify-center align-center text-center w-25"
+                            disabled><span>خیر</span></button>
+                    </div>
+                    <div class="w-100 mt-3">
+                        <input class="box mx-2 pr-3 w-75" type="text" disabled placeholder="توضیحات">
                     </div>
                 </v-row>
             </div>
@@ -102,12 +113,12 @@ function deleteItem(title, type, questionnaire, id) {
     }
     Questionnaire
         .deleteQuestion(bodyFormData, id)
-        .then(()=>{
-        Questionnaire
-            .getAllQuestion(props.id)
-            .then((res) => {
-                allQuestons.value = res;
-            })
+        .then(() => {
+            Questionnaire
+                .getAllQuestion(props.id)
+                .then((res) => {
+                    allQuestons.value = res;
+                })
         })
 }
 

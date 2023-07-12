@@ -4,7 +4,7 @@
       <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaa -->
       <v-col cols="5">
         <div class="box w-100 px-4" type="text">
-          <input :readonly="ifCreatedQuestionnaire" v-model="title" class="w-100 text-black text-subtitle-2 text-sm-h6"
+          <input :readonly="ifCreatedQuestionnaire" v-model="title" class="w-100  text-black text-subtitle-2 text-sm-h6"
             placeholder="نام پرسشنامه" type="text" />
 
         </div>
@@ -189,23 +189,7 @@ input::placeholder {
   ;
 }
 
-.box {
-  background: #ffffff;
-  border: 1px solid #d9d9d9;
-  border-radius: 10px;
-  height: 60px;
-  font-family: "DanaFaNum";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 30px;
 
-  display: flex;
-  align-items: center;
-  text-align: right;
-
-  color: #272b31;
-}
 
 .bb {
   width: 100%;

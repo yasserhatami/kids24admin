@@ -31,6 +31,9 @@
             
             <v-list-item prepend-icon="mdi-folder" title="سوالات متداول"></v-list-item>
             <v-list-item prepend-icon="mdi-folder" title="درباره ما"></v-list-item>
+            <v-list-item ><v-img width="60%" src="@/assets/images/dashboard/brand2.png">
+
+            </v-img></v-list-item>
         </v-list>
     </v-card>
 </template>
