@@ -62,7 +62,9 @@
                     <div class="w-100 mt-3">
                         <input class="box mx-2 pr-3 w-75" type="text" disabled placeholder="توضیحات">
                     </div>
-                </v-row>
+                </v-row><div>
+                    
+                </div>
             </div>
         </w-row>
     </v-container>

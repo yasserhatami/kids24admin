@@ -124,14 +124,11 @@
                 <button @click="cancelEveryThings"
                     class="box w-50 bg-red d-flex text-subtitle-2 text-sm-h6 justify-center mx-2">
                     انصراف
-                </button><br>
+                </button>
 
             </div>
             <br>
         </v-row>
-
-
-
 
     </v-container>
 </template>
