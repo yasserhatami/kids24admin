@@ -20,13 +20,12 @@
             </v-col>
         </v-row>
         <w-row>
-            <div class="border rounded pa-7  my-3" v-for="q in allQuestons.value" :key="q.id">
-
+            <div class="border rounded pa-7  my-3" v-for="(q,index) in allQuestons.value" :key="q.id">
+              
                 <v-row>
                     <v-col cols="8">
                         <div class="box w-100 px-4" type="text">
-                            <input v-model="editedTitle" :disabled="desable" class="w-100 text-black"
-                                :placeholder="q.title" />
+                            <input  :disabled="!listOfItems[index]" class="w-100 text-black" :placeholder="q.title" />
                         </div>
                     </v-col>
                     <v-col cols="2">
@@ -42,8 +41,7 @@
                     </v-col>
                     <v-col cols="1">
                         <div class="box btn w-100 pa-2 d-flex justify-center align-center bg-blue">
-                            <v-icon @click="editQuestion(q.title, q.question_type, q.questionnaire, q.id)" icon="mdi-pencil"
-                                size="large" />
+                            <v-icon @click="editQuestion(index)" icon="mdi-pencil" size="large" />
                         </div>
                     </v-col>
 
@@ -71,7 +69,13 @@
                         <input class="box mx-2 pr-3 w-75" type="text" disabled placeholder="توضیحات">
                     </div>
                 </v-row>
+                <div v-if="listOfItems[index]">
+                    <h1>
+                        yasssssssssss
+                    </h1>
+                </div>
             </div>
+
         </w-row>
     </v-container>
 </template>
@@ -86,10 +90,10 @@ const props = defineProps({
         required: true,
     }
 })
-let editedTitle = ref('')
+let listOfItems = ref([])
 let data = reactive({})
 let allQuestons = reactive({});
-let desable = ref(true)
+// let input = ref(true)
 
 onBeforeMount(() => {
     Questionnaire
@@ -102,6 +106,10 @@ onBeforeMount(() => {
             .then((res) => {
                 allQuestons.value = res;
                 console.log('list of ques', res);
+                for (let index = 0; index < res.length; index++) {
+                    listOfItems.value.push(false)
+                    
+                }
 
             })
 
@@ -133,8 +141,8 @@ function deleteItem(title, type, questionnaire, id) {
                 })
         })
 }
-function editQuestion() {
-    desable.value = false;
+function editQuestion(index) {
+    listOfItems.value[index] = true;
 
 }
 

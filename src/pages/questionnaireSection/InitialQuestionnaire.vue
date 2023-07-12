@@ -44,19 +44,16 @@ export default {
 
         function deleteItems() {
             let items = store.shouldDeleteItems;
-            const promises = []
+            
             for (const key in items) {
                 var value = items[key];
-                promises.push(Questionnaire
-                .deleteQuestionnaire(value))
-            }
-
-            Promise.all(promises).then(() => {
+                Questionnaire
+                .deleteQuestionnaire(value)
+                .then(() => {
                 updateQuestionnairTable.value =! updateQuestionnairTable.value
-                store.cleaneSate()
-            })
-
-           
+                 })
+            }
+            store.cleaneSate()
         }
         watch(search,()=>{
             if(search.value === ''){
